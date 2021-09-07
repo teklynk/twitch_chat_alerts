@@ -4,8 +4,8 @@
 ### URL Parameters
 example: http://localhost/twitch_chat_alerts/alerts.html?bot=CoolBot&channel=MrStreamer
 
- - bot = Your bot account. This can also be your main account if you do not have a separate bot account. 
- - channel = Your main channel.
+ - **bot** = Your bot account. This can also be your main account if you do not have a separate bot account. 
+ - **channel** = Your main channel.
 
 ### JSON data
 
