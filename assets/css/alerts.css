@@ -24,7 +24,7 @@ body {
     color: blue;
 }
 .alertItem p.message {
-    color: white;
+    color: #eee;
     margin-top: -100px;
     z-index: 99;
     position: relative;
@@ -33,7 +33,6 @@ body {
 .alertItem .image {
     z-index: 1;
 }
-
 .alertItem audio {
     display: none;
 }
@@ -44,7 +43,7 @@ body {
     z-index: 1;
 }
 .alertItem .message {
-    color: #fff;
+    color: #eee;
     text-shadow: 1px 1px #333;
     font-weight: bold;
     font-size: 40px;
@@ -56,12 +55,11 @@ body {
     max-width: 350px;
     max-height: 350px;
 }
-
 @keyframes glow {
     from {
-        text-shadow: 0 0 20px #1e3dac;
+        text-shadow: 0 0 20px #000000;
     }
     to {
-        text-shadow: 0 0 30px #347bc1, 0 0 10px #4d94c7;
+        text-shadow: 0 0 30px #eeeeee, 0 0 10px #000000;
     }
 }

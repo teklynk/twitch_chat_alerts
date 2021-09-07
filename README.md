@@ -16,30 +16,32 @@ example: http://localhost/twitch_chat_alerts/alerts.html?bot=CoolBot&channel=MrS
 
 **data.json** contains the alert actions. 
 ```
-{
-"command": "!alert1",
-"image": "alertImage1.png",
-"audio": "song1.mp3",
-"message": "Hello World! {username}",
-"say": "Hello. I am a bot saying things in chat",
-"timelimit": "8000"
-},
-{
-"command": "!alert2",
-"image": "alertImage2.png",
-"audio": "song2.mp3",
-"message": "Hello World! {username}",
-"say": "Hello. I am a bot saying things in chat",
-"timelimit": "8000"
-},
-{
-"command": "follow",
-"image": "alertImage2.png",
-"audio": "song2.mp3",
-"message": "Thanks for the Follow {username}",
-"say": "I am being followed",
-"timelimit": "8000"
-},
+[
+    {
+        "command": "!alert1",
+        "image": "alertImage1.png",
+        "audio": "song1.mp3",
+        "message": "Hello World! {username}",
+        "say": "Hello. I am a bot saying things in chat",
+        "timelimit": "8000"
+    },
+    {
+        "command": "!alert2",
+        "image": "alertImage2.png",
+        "audio": "song2.mp3",
+        "message": "Hello World! {username}",
+        "say": "Hello. I am a bot saying things in chat",
+        "timelimit": "8000"
+    },
+    {
+        "command": "follow",
+        "image": "alertImage2.png",
+        "audio": "song2.mp3",
+        "message": "Thanks for the Follow {username}",
+        "say": "I am being followed",
+        "timelimit": "8000"
+    }
+]
 ```
 ### Alert Commands
 - **!alert** : Custom chat commands that will trigger when someone in chat uses them (!commands, !sfx, !fart, !so, !welcome)
