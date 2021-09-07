@@ -1,0 +1,78 @@
+[
+  {
+    "command": "!alert",
+    "image": "animatedgif1.gif",
+    "audio": "song1.mp3",
+    "message": "Hello World1! {username}",
+    "say": "",
+    "timelimit": "5000"
+  },
+  {
+    "command": "!alert2",
+    "image": "small-Navy-Blue-Texture-Background.png",
+    "audio": "song2.mp3",
+    "message": "Hello World2! {username}",
+    "say": "",
+    "timelimit": "8000"
+  },
+  {
+    "command": "!alert3",
+    "image": "",
+    "audio": "",
+    "video": "yesyes.mp4",
+    "message": "Hello World3! {username}",
+    "say": "",
+    "timelimit": "8000"
+  },
+  {
+    "command": "follow",
+    "image": "small-Navy-Blue-Texture-Background.png",
+    "audio": "song2.mp3",
+    "message": "Thanks for the follow! {username}",
+    "say": "",
+    "timelimit": "8000"
+  },
+  {
+    "command": "hosted",
+    "image": "small-Navy-Blue-Texture-Background.png",
+    "audio": "song2.mp3",
+    "message": "Thanks for the host! {username}",
+    "say": "",
+    "timelimit": "8000"
+  },
+  {
+    "command": "raided",
+    "image": "small-Navy-Blue-Texture-Background.png",
+    "audio": "song2.mp3",
+    "message": "Thanks for the raid! {username}",
+    "say": "",
+    "timelimit": "8000"
+  },
+  {
+    "command": "cheer",
+    "image": "small-Navy-Blue-Texture-Background.png",
+    "audio": "",
+    "video": "",
+    "message": "Thanks for the {bits} cheers! {username} {message}",
+    "say": "",
+    "timelimit": "8000"
+  },
+  {
+    "command": "subscription",
+    "image": "small-Navy-Blue-Texture-Background.png",
+    "audio": "",
+    "video": "",
+    "message": "{username} just subscribed for {method}",
+    "say": "",
+    "timelimit": "1000"
+  },
+  {
+    "command": "resub",
+    "image": "small-Navy-Blue-Texture-Background.png",
+    "audio": "",
+    "video": "",
+    "message": "{username} just resubscribed for {method}",
+    "say": "",
+    "timelimit": "1000"
+  }
+]
