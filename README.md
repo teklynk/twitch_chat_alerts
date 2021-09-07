@@ -63,3 +63,14 @@ example: http://localhost/twitch_chat_alerts/alerts.html?bot=CoolBot&channel=MrS
 
 ### Style Sheet
 assets/css/alerts.css
+
+### Install and Run
+If you have Python installed on your machine, you can run a simple http web server using python. This project includes a **webserver.py** script.
+
+**Python3:**
+
+python3 -m http.server 8000 --bind 127.0.0.1
+
+**Python2:**
+
+python2 -m SimpleHTTPServer 8000
