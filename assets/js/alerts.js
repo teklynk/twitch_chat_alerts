@@ -10,6 +10,14 @@ $(document).ready(function () {
     let botName = getUrlParameter('bot');
     let channelName = getUrlParameter('channel');
 
+    if (botName === '') {
+        alert('bot is not set in the URL');
+    }
+
+    if (channelName === '') {
+        alert('channel is not set in the URL');
+    }
+
     // load and store json data file
     $.getJSON("./data.json", function (json) {
         localStorage.setItem("jsonData", JSON.stringify(json));
@@ -25,8 +33,14 @@ $(document).ready(function () {
 
     // get auth tokens from local storage. Use tokens from a bot account and not your main channel.
     let authtokens = localStorage.getItem("alertCreds");
+
+    if (!authtokens) {
+        $(location).attr("href", "alerts.html?bot=" + botName + "&channel=" + channelName);
+    }
+
     let authtoken;
     let clientId;
+
     $.each($.parseJSON(authtokens), function (idx, obj) {
         authtoken = obj.authtoken;
         clientId = obj.clientid;
@@ -156,7 +170,7 @@ $(document).ready(function () {
     client.on("hosted", (channel, username, viewers, autohost) => {
         if (self) return;
         //console.log('hosted: ' + username);
-        getAlert('hosted', username, viewers, null, null, null , null);
+        getAlert('hosted', username, viewers, null, null, null, null);
     });
 
     // triggers on raid
