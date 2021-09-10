@@ -92,5 +92,14 @@
     "message": "",
     "say": "Go check out {channel}. They were last seen playing: {playing} - {status} {url}",
     "timelimit": "1000"
+  },
+  {
+    "command": "!hey",
+    "image": "",
+    "audio": "",
+    "video": "",
+    "message": "",
+    "say": "Hello @{username}",
+    "timelimit": "1000"
   }
 ]

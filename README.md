@@ -36,6 +36,15 @@ Edit **data.json**. Add your own custom !action commands, !so and other bot resp
     "say": "{username} just farted :)",
     "timelimit": "1000"
   },
+    {
+    "command": "!hey,
+    "image": "",
+    "audio": "",
+    "video": "",
+    "message": "",
+    "say": "hello @{username} :)",
+    "timelimit": "1000"
+  },
   {
     "command": "!so",
     "image": "",
@@ -113,12 +122,12 @@ Edit **data.json**. Add your own custom !action commands, !so and other bot resp
  - **{bits}**
  - **{message}**
  - **{method}**
- - !so: **{channel}** **{playing}** **{status}** **{url}** 
+ - **!so:** **{channel}** **{playing}** **{status}** **{url}** 
 
 ### Media Support
- - **Video** : webm
+ - **Video** : webm (because OBS browser source only seems to like webm)
  - **Audio** : mp3, ogg
- - **Images** : gif, png, jpeg
+ - **Images** : gif, png, jpg
 
 ### Style Sheet
 assets/css/alerts.css
