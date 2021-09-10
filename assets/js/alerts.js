@@ -122,6 +122,15 @@ $(document).ready(function () {
         xhrG.send();
     };
 
+    // TODO: add feature that echos a message every x milliseconds or after x number of messages.
+    // may need to pull this from a separate json file.
+    // add randomize option, every x seconds or every x messages.
+    //
+    //setInterval( function () {
+    //    client.say(channelName,'test');
+    //    getAlert(chatmessage, user.username, null, user.state, message, localStorage.getItem("botSay"), null);
+    //}, 10000);
+
     // alerts function pulls from jsonData
     function getAlert(alertCommand, username = null, viewers = null, userstate = null, message = null, say = null, method = null) {
         $.each($.parseJSON(jsonData), function (idx, obj) {
@@ -250,7 +259,7 @@ $(document).ready(function () {
         if (user['message-type'] === 'chat') {
             if (chatmessage.startsWith("!")) {
                 //alertCommand, username = null, viewers = null, userstate = null, message = null, say = null, method = null
-                getAlert(chatmessage.split(' ')[0], user.username, null, user.state, message, localStorage.getItem("botSay"), null);
+                getAlert(chatmessage.split(' ')[0], user.username, null, user.state, message, null, null);
             }
         }
     });
