@@ -133,7 +133,7 @@ Edit **data.json**. Add your own custom !action commands, !so and other bot resp
 assets/css/alerts.css
 
 ### Install and Run
-If you have Python installed on your machine, you can run a simple http web server using python. This project includes a **webserver.py** script.
+If you have Python installed on your machine, you can run a simple http web server using python. This project includes a **webserver.sh** script that will start the python webserver.
 
 **Python3:**
 
