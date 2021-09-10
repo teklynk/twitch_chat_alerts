@@ -25,6 +25,15 @@
     "timelimit": "8000"
   },
   {
+    "command": "!fart",
+    "image": "",
+    "audio": "fart1.mp3",
+    "video": "",
+    "message": "",
+    "say": "{username} just farted :)",
+    "timelimit": "1000"
+  },
+  {
     "command": "follow",
     "image": "small-Navy-Blue-Texture-Background.png",
     "audio": "song2.mp3",
@@ -73,6 +82,15 @@
     "video": "",
     "message": "{username} just resubscribed for {method}",
     "say": "",
+    "timelimit": "1000"
+  },
+  {
+    "command": "!so",
+    "image": "",
+    "audio": "",
+    "video": "",
+    "message": "",
+    "say": "Go check out {channel}. They were last seen playing: {playing} - {status} {url}",
     "timelimit": "1000"
   }
 ]

@@ -12,39 +12,95 @@ example: http://localhost/twitch_chat_alerts/alerts.html?bot=CoolBot&channel=MrS
  - Rename sample.data.json to data.json
  - Rename sample.auth.json to auth.json
 
+Edit **data.json**. Add your own custom !action commands, !so and other bot responses.
+
 **auth.json** contains your Twitch oAuth Token and Client ID. If you are using a bot account, then you should generate these token using the bot account and not your main account.
 
 **data.json** contains the alert actions. 
 ```
 [
-    {
-        "command": "!alert1",
-        "image": "alertImage1.png",
-        "audio": "song1.mp3",
-        "message": "Hello World! {username}",
-        "say": "Hello. I am a bot saying things in chat",
-        "timelimit": "8000"
-    },
-    {
-        "command": "!alert2",
-        "image": "alertImage2.png",
-        "audio": "song2.mp3",
-        "message": "Hello World! {username}",
-        "say": "Hello. I am a bot saying things in chat",
-        "timelimit": "8000"
-    },
-    {
-        "command": "follow",
-        "image": "alertImage2.png",
-        "audio": "song2.mp3",
-        "message": "Thanks for the Follow {username}",
-        "say": "I am being followed",
-        "timelimit": "8000"
-    }
+  {
+    "command": "!alert",
+    "image": "animatedgif1.gif",
+    "audio": "song1.mp3",
+    "message": "Hello World1! {username}",
+    "say": "",
+    "timelimit": "5000"
+  },
+  {
+    "command": "!fart",
+    "image": "",
+    "audio": "fart1.mp3",
+    "video": "",
+    "message": "",
+    "say": "{username} just farted :)",
+    "timelimit": "1000"
+  },
+  {
+    "command": "!so",
+    "image": "",
+    "audio": "",
+    "video": "",
+    "message": "",
+    "say": "Go check out {channel}. They were last seen playing: {playing} - {status} {url}",
+    "timelimit": "1000"
+  },
+  {
+    "command": "follow",
+    "image": "small-Navy-Blue-Texture-Background.png",
+    "audio": "song2.mp3",
+    "message": "Thanks for the follow! {username}",
+    "say": "",
+    "timelimit": "8000"
+  },
+  {
+    "command": "hosted",
+    "image": "small-Navy-Blue-Texture-Background.png",
+    "audio": "song2.mp3",
+    "message": "Thanks for the host! {username}",
+    "say": "",
+    "timelimit": "8000"
+  },
+  {
+    "command": "raided",
+    "image": "small-Navy-Blue-Texture-Background.png",
+    "audio": "song2.mp3",
+    "message": "Thanks for the raid! {username}",
+    "say": "",
+    "timelimit": "8000"
+  },
+  {
+    "command": "cheer",
+    "image": "small-Navy-Blue-Texture-Background.png",
+    "audio": "",
+    "video": "",
+    "message": "Thanks for the {bits} cheers! {username} {message}",
+    "say": "",
+    "timelimit": "8000"
+  },
+  {
+    "command": "subscription",
+    "image": "small-Navy-Blue-Texture-Background.png",
+    "audio": "",
+    "video": "",
+    "message": "{username} just subscribed for {method}",
+    "say": "",
+    "timelimit": "3000"
+  },
+  {
+    "command": "resub",
+    "image": "small-Navy-Blue-Texture-Background.png",
+    "audio": "",
+    "video": "",
+    "message": "{username} just resubscribed for {method}",
+    "say": "",
+    "timelimit": "3000"
+  }
 ]
 ```
 ### Alert Commands
 - **!alert** : Custom chat commands that will trigger when someone in chat uses them (!commands, !sfx, !fart, !so, !welcome)
+- **!so** : Bot will look up {channel} and say a shout-out message with {playing},{status},{url} values for the {channel} entered. ie: !so teklynk.
 - **follow** : This will trigger when you receive a new follower.
 - **hosted** : This will trigger when someone hosts your channel.
 - **raided** : This will trigger when someone raids your channel.
@@ -57,11 +113,12 @@ example: http://localhost/twitch_chat_alerts/alerts.html?bot=CoolBot&channel=MrS
  - **{bits}**
  - **{message}**
  - **{method}**
+ - !so: **{channel}** **{playing}** **{status}** **{url}** 
 
 ### Media Support
- - Video : webm
- - Audio : mp3, ogg
- - Images : gif, png, jpeg
+ - **Video** : webm
+ - **Audio** : mp3, ogg
+ - **Images** : gif, png, jpeg
 
 ### Style Sheet
 assets/css/alerts.css

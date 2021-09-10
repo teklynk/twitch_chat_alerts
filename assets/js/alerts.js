@@ -47,45 +47,42 @@ $(document).ready(function () {
     });
 
     // Twitch API: user info: user_id
-    let getInfo = function (channelName) {
-        let urlU = "https://api.twitch.tv/helix/users?login=" + channelName + "";
-        let xhrU = new XMLHttpRequest();
-        xhrU.open("GET", urlU);
-        xhrU.setRequestHeader("Authorization", "Bearer " + authtoken + "");
-        xhrU.setRequestHeader("Client-Id", clientId);
-        xhrU.onreadystatechange = function () {
-            if (xhrU.readyState === 4) {
-                let dataU = JSON.parse(xhrU.responseText);
-                let userId = `${dataU.data[0]['id']}`;
-                localStorage.setItem("userId", userId);
-                return userId;
+    function getInfo(channelName, callback) {
+        let urlI = "https://api.twitch.tv/helix/users?login=" + channelName + "";
+        let xhrI = new XMLHttpRequest();
+        xhrI.open("GET", urlI);
+        xhrI.setRequestHeader("Authorization", "Bearer " + authtoken + "");
+        xhrI.setRequestHeader("Client-Id", clientId);
+        xhrI.onreadystatechange = function () {
+            if (xhrI.readyState === 4 && xhrI.status === 200) {
+                callback(JSON.parse(xhrI.responseText));
+                return true;
             } else {
                 return false;
             }
-
         };
-        xhrU.send();
-    };
+
+        xhrI.send();
+    }
+
+    // get user id and user data on load
+    getInfo(channelName, function (data) {
+        localStorage.setItem("userId", data.data[0]['id']);
+        localStorage.setItem("userName", data.data[0]['display_name']);
+        localStorage.setItem("userData", JSON.stringify(data));
+    });
 
     // Twitch API: recent follow
-    let getFollows = function () {
-        let urlF = "https://api.twitch.tv/helix/users/follows?first=1&to_id=" + localStorage.getItem("userId") + "";
+    let getFollows = function (refUserID, callback) {
+        let urlF = "https://api.twitch.tv/helix/users/follows?first=1&to_id=" + refUserID + "";
         let xhrF = new XMLHttpRequest();
         xhrF.open("GET", urlF);
         xhrF.setRequestHeader("Authorization", "Bearer " + authtoken + "");
         xhrF.setRequestHeader("Client-Id", clientId);
         xhrF.onreadystatechange = function () {
             if (xhrF.readyState === 4) {
-                let dataF = JSON.parse(xhrF.responseText);
-                let follows = `${dataF.data[0]['from_name']}`;
-                //let follows = 'test';
-
-                if (follows !== localStorage.getItem("recentFollower")) {
-                    localStorage.setItem("recentFollower", follows);
-                    getAlert('follow', localStorage.getItem("recentFollower"));
-                }
-
-                return follows;
+                callback(JSON.parse(xhrF.responseText));
+                return true;
             } else {
                 return false;
             }
@@ -93,66 +90,110 @@ $(document).ready(function () {
         xhrF.send();
     };
 
+    // check for new follows every 5 seconds
+    setInterval(function () {
+        // get recent follower
+        getFollows(localStorage.getItem("userId"), function (data) {
+            localStorage.setItem("followerId", data.data[0]['from_id']);
+            localStorage.setItem("followerData", JSON.stringify(data));
+
+            if (data.data[0]['from_name'] !== localStorage.getItem("followerName")) {
+                localStorage.setItem("followerName", data.data[0]['from_name']);
+                getAlert('follow', localStorage.getItem("followerName"));
+            }
+        });
+    }, 5000);
+
+    // Twitch API get last game played from a user
+    let getDetails = function (channelID, callback) {
+        let urlG = "https://api.twitch.tv/kraken/channels/" + channelID + "";
+        let xhrG = new XMLHttpRequest();
+        xhrG.open("GET", urlG);
+        xhrG.setRequestHeader("Accept", "application/vnd.twitchtv.v5+json");
+        xhrG.setRequestHeader("Client-Id", clientId);
+        xhrG.onreadystatechange = function () {
+            if (xhrG.readyState === 4) {
+                callback(JSON.parse(xhrG.responseText));
+                return true;
+            } else {
+                return false;
+            }
+        };
+        xhrG.send();
+    };
+
     // alerts function pulls from jsonData
     function getAlert(alertCommand, username = null, viewers = null, userstate = null, message = null, say = null, method = null) {
         $.each($.parseJSON(jsonData), function (idx, obj) {
             if (obj.command === alertCommand) {
 
-                console.log(obj.command);
-                console.log(obj.image);
-                console.log(obj.audio);
-                console.log(obj.video);
-                console.log(obj.message);
-                console.log(obj.say);
-                console.log(obj.timelimit);
-
                 let messageStr;
+                let getChannel;
 
-                if (username) {
+                if (obj.say) {
+                    // Shoutout logic
+                    if (alertCommand === '!so') {
+                        getChannel = message.substr(4);
+                        getInfo(getChannel, function (data) {
+                            getDetails(data.data[0]['id'], function (info) {
+                                messageStr = obj.say.replace("{channel}", getChannel.toUpperCase());
+                                messageStr = messageStr.replace("{playing}", info['game']);
+                                messageStr = messageStr.replace("{status}", info['status']);
+                                messageStr = messageStr.replace("{url}", info['url']);
+                                console.log(messageStr);
+                                client.say(channelName, messageStr);
+                            });
+                        });
+                    } else {
+                        messageStr = obj.say.replace("{username}", username);
+                        client.say(channelName, messageStr);
+                    }
+                }
+
+                // 3 second delay between alerts
+                setTimeout(function () {
+
+                    console.log(obj.command);
+                    console.log(obj.image);
+                    console.log(obj.audio);
+                    console.log(obj.video);
+                    console.log(obj.message);
+                    console.log(obj.timelimit);
+
                     messageStr = obj.message.replace("{username}", "<span class='username'>" + username + "</span>");
                     messageStr = messageStr.replace("{viewers}", "<span class='viewers'>" + viewers + "</span>");
                     messageStr = messageStr.replace("{message}", "<span class='msg'>" + message + "</span>");
                     messageStr = messageStr.replace("{bits}", "<span class='bits'>" + userstate + "</span>");
                     messageStr = messageStr.replace("{method}", "<span class='method'>" + method + "</span>");
-                }
 
-                //remove divs before displaying new alerts
-                $("#container .alertItem").remove();
+                    //remove divs before displaying new alerts
+                    $("#container .alertItem").remove();
 
-                $("<div class='alertItem'>").appendTo("#container");
+                    $("<div class='alertItem'>").appendTo("#container");
 
-                if (obj.audio) {
-                    $("<audio class='sound' preload='auto' src='./media/" + obj.audio + "' autoplay></audio>").appendTo(".alertItem");
-                }
-                if (obj.video) {
-                    $("<video class='video' autoplay><source src='./media/" + obj.video + "' type='video/webm'></video>").appendTo(".alertItem");
-                }
-                if (obj.image) {
-                    $("<img class='image' src='./media/" + obj.image + "'/>").appendTo(".alertItem");
-                }
-                if (obj.message) {
-                    $("<p class='message'>" + messageStr + "</p>").appendTo(".alertItem");
-                }
-                if (obj.say) {
-                    localStorage.setItem("botSay", obj.say);
-                }
+                    if (obj.audio) {
+                        $("<audio class='sound' preload='auto' src='./media/" + obj.audio + "' autoplay></audio>").appendTo(".alertItem");
+                    }
+                    if (obj.video) {
+                        $("<video class='video' autoplay><source src='./media/" + obj.video + "' type='video/webm'></video>").appendTo(".alertItem");
+                    }
+                    if (obj.image) {
+                        $("<img class='image' src='./media/" + obj.image + "'/>").appendTo(".alertItem");
+                    }
+                    if (obj.message) {
+                        $("<p class='message'>" + messageStr + "</p>").appendTo(".alertItem");
+                    }
 
-                $("</div>").appendTo("#container");
+                    $("</div>").appendTo("#container");
 
-                $("#container .alertItem").fadeIn(1000).delay(obj.timelimit).fadeOut(1000, function () {
-                    $(this).remove();
-                });
+                    $("#container .alertItem").fadeIn(500).delay(parseInt(obj.timelimit)).fadeOut(500, function () {
+                        $(this).remove();
+                    });
+
+                }, 3000);
             }
         });
     }
-
-    // call functions
-    getInfo(channelName);
-
-    // check for new follows every 5 seconds
-    setInterval(function () {
-        getFollows();
-    }, 5000);
 
     const client = new tmi.Client({
         options: {debug: true},
@@ -201,29 +242,21 @@ $(document).ready(function () {
 
     // triggers on message
     client.on('message', (channel, user, message, self) => {
-
         if (self) return;
 
         let chatmessage = message.replace(/(<([^>]+)>)/ig, "");
 
-        // Ignore echoed messages.
-        if (self) return;
-
         //alert message
         if (user['message-type'] === 'chat') {
-            //console.log(user.username);
             if (chatmessage.startsWith("!")) {
-
-                getAlert(chatmessage.split(' ')[0], user.username, null);
-
-                if (localStorage.getItem("botSay")) {
-                    client.say(channel, user.username + " " + localStorage.getItem("botSay"));
-                    localStorage.setItem("botSay", "");
-                }
-
+                //alertCommand, username = null, viewers = null, userstate = null, message = null, say = null, method = null
+                getAlert(chatmessage.split(' ')[0], user.username, null, user.state, message, localStorage.getItem("botSay"), null);
+                /*                if (localStorage.getItem("botSay")) {
+                                    client.say(channel, localStorage.getItem("botSay"));
+                                    localStorage.setItem("botSay", "");
+                                }*/
             }
         }
-
     });
 
 });
