@@ -251,10 +251,6 @@ $(document).ready(function () {
             if (chatmessage.startsWith("!")) {
                 //alertCommand, username = null, viewers = null, userstate = null, message = null, say = null, method = null
                 getAlert(chatmessage.split(' ')[0], user.username, null, user.state, message, localStorage.getItem("botSay"), null);
-                /*                if (localStorage.getItem("botSay")) {
-                                    client.say(channel, localStorage.getItem("botSay"));
-                                    localStorage.setItem("botSay", "");
-                                }*/
             }
         }
     });
