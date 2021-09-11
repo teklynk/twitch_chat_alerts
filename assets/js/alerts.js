@@ -28,15 +28,33 @@ $(document).ready(function () {
         localStorage.setItem("alertCreds", JSON.stringify(json));
     });
 
+    // load and store json data file
+    $.getJSON("./block.json", function (json) {
+        localStorage.setItem("blocks", JSON.stringify(json));
+    });
+
     // get json data from local storage
     let jsonData = localStorage.getItem("jsonData");
 
     // get auth tokens from local storage. Use tokens from a bot account and not your main channel.
     let authtokens = localStorage.getItem("alertCreds");
 
-    if (!authtokens) {
+    let blockList = localStorage.getItem("blocks");
+
+    if (!blockList) {
         $(location).attr("href", "alerts.html?bot=" + botName + "&channel=" + channelName);
     }
+
+    let blockedUsernames;
+
+    $.each($.parseJSON(blockList), function (idx, obj) {
+        blockedUsernames = obj.usernames;
+    });
+
+    blockedUsernames = blockedUsernames.replace(/\s/g, '');
+    blockedUsernames = blockedUsernames.toLowerCase();
+    let blockedUsernamesArr = blockedUsernames.split(',');
+    blockedUsernamesArr = blockedUsernamesArr.filter(Boolean);
 
     let authtoken;
     let clientId;
@@ -90,19 +108,31 @@ $(document).ready(function () {
         xhrF.send();
     };
 
-    // check for new follows every 5 seconds
+    // check for new follows every 1 second
     setInterval(function () {
         // get recent follower
         getFollows(localStorage.getItem("userId"), function (data) {
             localStorage.setItem("followerId", data.data[0]['from_id']);
             localStorage.setItem("followerData", JSON.stringify(data));
-
+            let blockedUser = false;
             if (data.data[0]['from_name'] !== localStorage.getItem("followerName")) {
-                localStorage.setItem("followerName", data.data[0]['from_name']);
-                getAlert('follow', localStorage.getItem("followerName"));
+                blockedUsernamesArr.forEach(usersList);
+
+                function usersList(item, index) {
+                    if (data.data[0]['from_name'].startsWith(item)) {
+                        blockedUser = true;
+                    }
+                }
+
+                if (!blockedUser) {
+                    localStorage.setItem("followerName", data.data[0]['from_name']);
+                    getAlert('follow', localStorage.getItem("followerName"));
+                } else {
+                    console.log('blocked: ' + data.data[0]['from_name']);
+                }
             }
         });
-    }, 5000);
+    }, 500);
 
     // Twitch API get last game played from a user
     let getDetails = function (channelID, callback) {
