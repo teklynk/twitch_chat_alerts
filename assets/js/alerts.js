@@ -41,7 +41,7 @@ $(document).ready(function () {
 
     let blockList = localStorage.getItem("blocks");
 
-    if (!blockList) {
+    if (!jsonData || !authtokens || !blockList) {
         $(location).attr("href", "alerts.html?bot=" + botName + "&channel=" + channelName);
     }
 
@@ -132,7 +132,7 @@ $(document).ready(function () {
                 }
             }
         });
-    }, 500);
+    }, 1000);
 
     // Twitch API get last game played from a user
     let getDetails = function (channelID, callback) {
@@ -162,7 +162,7 @@ $(document).ready(function () {
     //}, 10000);
 
     // alerts function pulls from jsonData
-    function getAlert(alertCommand, username = null, viewers = null, userstate = null, message = null, say = null, method = null) {
+    function getAlert(alertCommand, username = null, viewers = null, userstate = null, message = null, say = null, months = null) {
         $.each($.parseJSON(jsonData), function (idx, obj) {
             if (obj.command === alertCommand) {
 
@@ -181,7 +181,7 @@ $(document).ready(function () {
                                 messageStr = messageStr.replace("{url}", info['url']);
                                 console.log(messageStr);
                                 client.say(channelName, messageStr);
-                            });
+                            });``
                         });
                     } else {
                         messageStr = obj.say.replace("{username}", username);
@@ -203,7 +203,7 @@ $(document).ready(function () {
                     messageStr = messageStr.replace("{viewers}", "<span class='viewers'>" + viewers + "</span>");
                     messageStr = messageStr.replace("{message}", "<span class='msg'>" + message + "</span>");
                     messageStr = messageStr.replace("{bits}", "<span class='bits'>" + userstate + "</span>");
-                    messageStr = messageStr.replace("{method}", "<span class='method'>" + method + "</span>");
+                    messageStr = messageStr.replace("{months}", "<span class='months'>" + months + "</span>");
 
                     //remove divs before displaying new alerts
                     $("#container .alertItem").remove();
@@ -247,48 +247,43 @@ $(document).ready(function () {
     client.connect().catch(console.error);
 
     // triggers on hosted
-    client.on("hosted", (channel, username, viewers, autohost) => {
-        if (self) return;
-        //console.log('hosted: ' + username);
+    client.on("hosted", (channel, username, viewers, autohost) => {    
+        console.log('hosted: ' + username);
         getAlert('hosted', username, viewers, null, null, null, null);
     });
 
     // triggers on raid
-    client.on("raided", (channel, username, viewers) => {
-        if (self) return;
-        //console.log('raided: ' + username);
+    client.on("raided", (channel, username, viewers) => { 
+        console.log('raided: ' + username);
         getAlert('raided', username, viewers, null, null, null, null);
     });
 
     // triggers on cheer
     client.on("cheer", (channel, userstate, message) => {
-        if (self) return;
-        //console.log('cheer: ' + userstate.username);
+        console.log('cheer: ' + userstate.username);
         getAlert('cheer', userstate.username, null, userstate.bits, message, null, null);
     });
 
     client.on("subscription", (channel, username, method, message, userstate) => {
-        if (self) return;
-        //console.log('subscription: ' + username);
-        getAlert('subscription', username, null, userstate, message, null, method);
+        console.log('subscription: ' + username);
+        getAlert('subscription', username, null, userstate, message, null, null);
     });
 
     client.on("resub", (channel, username, months, message, userstate, methods) => {
-        if (self) return;
-        //console.log('resub: ' + username);
-        getAlert('resub', username, null, userstate, message, null, methods);
+        console.log('resub: ' + username);
+        getAlert('resub', username, null, userstate, message, null, months);
     });
 
     // triggers on message
     client.on('message', (channel, user, message, self) => {
-        if (self) return;
+        
 
         let chatmessage = message.replace(/(<([^>]+)>)/ig, "");
 
         //alert message
         if (user['message-type'] === 'chat') {
             if (chatmessage.startsWith("!")) {
-                //alertCommand, username = null, viewers = null, userstate = null, message = null, say = null, method = null
+                //alertCommand, username = null, viewers = null, userstate = null, message = null, say = null, months = null
                 getAlert(chatmessage.split(' ')[0], user.username, null, user.state, message, null, null);
             }
         }

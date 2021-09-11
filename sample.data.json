@@ -69,20 +69,20 @@
   {
     "command": "subscription",
     "image": "small-Navy-Blue-Texture-Background.png",
-    "audio": "",
+    "audio": "song2.mp3",
     "video": "",
-    "message": "{username} just subscribed for {method}",
+    "message": "{username} just subscribed for {months} months.",
     "say": "",
-    "timelimit": "1000"
+    "timelimit": "3000"
   },
   {
     "command": "resub",
     "image": "small-Navy-Blue-Texture-Background.png",
-    "audio": "",
+    "audio": "song2.mp3",
     "video": "",
-    "message": "{username} just resubscribed for {method}",
+    "message": "{username} just resubscribed for {months} months",
     "say": "",
-    "timelimit": "1000"
+    "timelimit": "3000"
   },
   {
     "command": "!so",

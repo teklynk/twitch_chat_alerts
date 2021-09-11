@@ -92,7 +92,7 @@ Edit **data.json**. Add your own custom !action commands, !so and other bot resp
     "image": "small-Navy-Blue-Texture-Background.png",
     "audio": "",
     "video": "",
-    "message": "{username} just subscribed for {method}",
+    "message": "{username} just subscribed",
     "say": "",
     "timelimit": "3000"
   },
@@ -101,7 +101,7 @@ Edit **data.json**. Add your own custom !action commands, !so and other bot resp
     "image": "small-Navy-Blue-Texture-Background.png",
     "audio": "",
     "video": "",
-    "message": "{username} just resubscribed for {method}",
+    "message": "{username} just resubscribed for {months} months",
     "say": "",
     "timelimit": "3000"
   }
@@ -121,7 +121,7 @@ Edit **data.json**. Add your own custom !action commands, !so and other bot resp
  - **{username}**
  - **{bits}**
  - **{message}**
- - **{method}**
+ - **{months}**
  - **!so:** **{channel}** **{playing}** **{status}** **{url}** 
 
 ### Media Support
@@ -133,7 +133,11 @@ Edit **data.json**. Add your own custom !action commands, !so and other bot resp
 assets/css/alerts.css
 
 ### Install and Run
-If you have Python installed on your machine, you can run a simple http web server using python. This project includes a **webserver.sh** script that will start the python webserver.
+Setup a simple NGINX web server.
+
+## OR ##
+
+If you have Python installed on your machine, you can run a simple http web server using python. This project includes a **webserver.sh** script that will start the python web server.
 
 **Python3:**
 
