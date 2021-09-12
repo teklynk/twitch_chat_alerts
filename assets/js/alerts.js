@@ -42,7 +42,7 @@ $(document).ready(function () {
     let blockList = localStorage.getItem("blocks");
 
     if (!jsonData || !authtokens || !blockList) {
-        $(location).attr("href", "alerts.html?bot=" + botName + "&channel=" + channelName);
+        alert('json file not found or set');
     }
 
     let blockedUsernames;
