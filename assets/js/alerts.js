@@ -181,7 +181,7 @@ $(document).ready(function () {
                                 messageStr = messageStr.replace("{url}", info['url']);
                                 console.log(messageStr);
                                 client.say(channelName, messageStr);
-                            });``
+                            });
                         });
                     } else {
                         messageStr = obj.say.replace("{username}", username);
