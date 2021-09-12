@@ -1,5 +1,18 @@
 # Twitch alerts overlay
 ### ** Do not use this on a public server. This is meant to run locally (localhost) or on an internal server (http://192.168.xx/alerts.html...)
+### Twitch oAuth
+Tokens can be generated from [https://twitchtokengenerator.com/](https://twitchtokengenerator.com/)
+
+If you want your bot to reply in chat after a command, I suggest creating tokens using your bots account. To do this, you will need to sign in to Twitch using your bot account before visiting twitchtokengenerator.
+
+Generate a Custom Scope Token with these permissions:
+- bits:read
+- chat:read
+- chat:edit
+- channel:read:subscriptions
+- channel:read:redemptions
+- user:read:subscription
+- user:read:follows
 
 ### URL Parameters
 example: http://localhost/twitch_chat_alerts/alerts.html?bot=CoolBot&channel=MrStreamer
@@ -7,10 +20,12 @@ example: http://localhost/twitch_chat_alerts/alerts.html?bot=CoolBot&channel=MrS
  - **bot** = Your bot account. This can also be your main account if you do not have a separate bot account. 
  - **channel** = Your main channel.
 
-### JSON data
+### JSON config files
 
  - Rename sample.data.json to data.json
  - Rename sample.auth.json to auth.json
+ - Rename sample.block.json to block.json
+ - Rename sample.messages.json to messages.json
 
 Edit **data.json**. Add your own custom !action commands, !so and other bot responses.
 

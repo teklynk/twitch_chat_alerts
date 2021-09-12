@@ -152,15 +152,6 @@ $(document).ready(function () {
         xhrG.send();
     };
 
-    // TODO: add feature that echos a message every x milliseconds or after x number of messages.
-    // may need to pull this from a separate json file.
-    // add randomize option, every x seconds or every x messages.
-    //
-    //setInterval( function () {
-    //    client.say(channelName,'test');
-    //    getAlert(chatmessage, user.username, null, user.state, message, localStorage.getItem("botSay"), null);
-    //}, 10000);
-
     // alerts function pulls from jsonData
     function getAlert(alertCommand, username = null, viewers = null, userstate = null, message = null, say = null, months = null) {
         $.each($.parseJSON(jsonData), function (idx, obj) {
@@ -181,7 +172,7 @@ $(document).ready(function () {
                                 messageStr = messageStr.replace("{url}", info['url']);
                                 console.log(messageStr);
                                 client.say(channelName, messageStr);
-                            });``
+                            });
                         });
                     } else {
                         messageStr = obj.say.replace("{username}", username);
@@ -274,9 +265,11 @@ $(document).ready(function () {
         getAlert('resub', username, null, userstate, message, null, months);
     });
 
+    let messageCnt = 0;
+
     // triggers on message
     client.on('message', (channel, user, message, self) => {
-        
+        messageCnt ++;
 
         let chatmessage = message.replace(/(<([^>]+)>)/ig, "");
 
