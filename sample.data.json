@@ -98,10 +98,10 @@
     "command": "!so",
     "image": "",
     "audio": "",
-    "video": "",
+    "video": "{randomclip}",
     "message": "",
     "say": "Go check out {channel}. They were last seen playing: {playing} - {status} {url}",
-    "timelimit": "1000",
+    "timelimit": "10000",
     "perm": "mods"
   },
   {
