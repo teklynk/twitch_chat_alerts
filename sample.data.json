@@ -5,7 +5,8 @@
     "audio": "song1.mp3",
     "message": "Hello World1! {username}",
     "say": "",
-    "timelimit": "5000"
+    "timelimit": "5000",
+    "perm": "all"
   },
   {
     "command": "!alert2",
@@ -13,7 +14,8 @@
     "audio": "song2.mp3",
     "message": "Hello World2! {username}",
     "say": "",
-    "timelimit": "8000"
+    "timelimit": "8000",
+    "perm": "mods"
   },
   {
     "command": "!alert3",
@@ -22,7 +24,8 @@
     "video": "yesyes.mp4",
     "message": "Hello World3! {username}",
     "say": "",
-    "timelimit": "8000"
+    "timelimit": "8000",
+    "perm": "mods"
   },
   {
     "command": "!fart",
@@ -31,7 +34,8 @@
     "video": "",
     "message": "",
     "say": "{username} just farted :)",
-    "timelimit": "1000"
+    "timelimit": "1000",
+    "perm": "all"
   },
   {
     "command": "follow",
@@ -39,7 +43,8 @@
     "audio": "song2.mp3",
     "message": "Thanks for the follow! {username}",
     "say": "",
-    "timelimit": "8000"
+    "timelimit": "8000",
+    "perm": "all"
   },
   {
     "command": "hosted",
@@ -47,7 +52,8 @@
     "audio": "song2.mp3",
     "message": "Thanks for the host! {username}",
     "say": "",
-    "timelimit": "8000"
+    "timelimit": "8000",
+    "perm": "all"
   },
   {
     "command": "raided",
@@ -55,7 +61,8 @@
     "audio": "song2.mp3",
     "message": "Thanks for the raid! {username}",
     "say": "",
-    "timelimit": "8000"
+    "timelimit": "8000",
+    "perm": "all"
   },
   {
     "command": "cheer",
@@ -64,7 +71,8 @@
     "video": "",
     "message": "Thanks for the {bits} cheers! {username} {message}",
     "say": "",
-    "timelimit": "8000"
+    "timelimit": "8000",
+    "perm": "all"
   },
   {
     "command": "subscription",
@@ -73,7 +81,8 @@
     "video": "",
     "message": "{username} just subscribed for {months} months.",
     "say": "",
-    "timelimit": "3000"
+    "timelimit": "3000",
+    "perm": "all"
   },
   {
     "command": "resub",
@@ -82,7 +91,8 @@
     "video": "",
     "message": "{username} just resubscribed for {months} months",
     "say": "",
-    "timelimit": "3000"
+    "timelimit": "3000",
+    "perm": "all"
   },
   {
     "command": "!so",
@@ -91,7 +101,8 @@
     "video": "",
     "message": "",
     "say": "Go check out {channel}. They were last seen playing: {playing} - {status} {url}",
-    "timelimit": "1000"
+    "timelimit": "1000",
+    "perm": "mods"
   },
   {
     "command": "!hey",
@@ -100,6 +111,7 @@
     "video": "",
     "message": "",
     "say": "Hello @{username}",
-    "timelimit": "1000"
+    "timelimit": "1000",
+    "perm": "all"
   }
 ]
