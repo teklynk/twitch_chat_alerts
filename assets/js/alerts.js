@@ -153,7 +153,7 @@ $(document).ready(function () {
         xhrG.send();
     };
 
-    // Twitch API get last game played from a user
+    // Twitch API get clips for !so command
     let getClips = function (refUserID, callback) {
         let urlC = "https://api.twitch.tv/helix/clips?broadcaster_id=" + refUserID + "&first=1";
         let xhrC = new XMLHttpRequest();
@@ -238,10 +238,13 @@ $(document).ready(function () {
                                 getChannel = message.substr(4);
                                 getInfo(getChannel, function (data) {
                                     getClips(data.data[0]['id'], function (info) {
-                                        let thumbPart = info.data[0]['thumbnail_url'].split("-preview-");
-                                        thumbPart = thumbPart[0] + ".mp4";
-                                        $("<video class='video' autoplay><source src='" + thumbPart + "' type='video/mp4'></video>").appendTo(".alertItem");
-                                        $("<p class='message shoutout'>" + getChannel + "</p>").appendTo(".alertItem");
+                                        // if a clips exists
+                                        if (info.data[0]['id']) {
+                                            let thumbPart = info.data[0]['thumbnail_url'].split("-preview-");
+                                            thumbPart = thumbPart[0] + ".mp4";
+                                            $("<video class='video' autoplay><source src='" + thumbPart + "' type='video/mp4'></video>").appendTo(".alertItem");
+                                            $("<p class='message shoutout'>" + getChannel + "</p>").appendTo(".alertItem");
+                                        }
                                     });
                                 });
                             } else {
