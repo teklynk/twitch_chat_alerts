@@ -153,6 +153,24 @@ $(document).ready(function () {
         xhrG.send();
     };
 
+    // Twitch API get last game played from a user
+    let getClips = function (refUserID, callback) {
+        let urlC = "https://api.twitch.tv/helix/clips?broadcaster_id=" + refUserID + "&first=1";
+        let xhrC = new XMLHttpRequest();
+        xhrC.open("GET", urlC);
+        xhrC.setRequestHeader("Authorization", "Bearer " + authtoken + "");
+        xhrC.setRequestHeader("Client-Id", clientId);
+        xhrC.onreadystatechange = function () {
+            if (xhrC.readyState === 4) {
+                callback(JSON.parse(xhrC.responseText));
+                return true;
+            } else {
+                return false;
+            }
+        };
+        xhrC.send();
+    };
+
     // alerts function pulls from data.json
     function getAlert(alertCommand, username = null, viewers = null, userstate = null, message = null, say = null, months = null) {
         $.each($.parseJSON(jsonData), function (idx, obj) {
@@ -190,6 +208,7 @@ $(document).ready(function () {
                         }
                     }
 
+                    // on screen alerts
                     // 3 second delay between alerts
                     setTimeout(function () {
 
@@ -215,7 +234,19 @@ $(document).ready(function () {
                             $("<audio class='sound' preload='auto' src='./media/" + obj.audio + "' autoplay></audio>").appendTo(".alertItem");
                         }
                         if (obj.video) {
-                            $("<video class='video' autoplay><source src='./media/" + obj.video + "' type='video/webm'></video>").appendTo(".alertItem");
+                            if (alertCommand === '!so' && obj.video === "{randomclip}") {
+                                getChannel = message.substr(4);
+                                getInfo(getChannel, function (data) {
+                                    getClips(data.data[0]['id'], function (info) {
+                                        let thumbPart = info.data[0]['thumbnail_url'].split("-preview-");
+                                        thumbPart = thumbPart[0] + ".mp4";
+                                        $("<video class='video' autoplay><source src='" + thumbPart + "' type='video/mp4'></video>").appendTo(".alertItem");
+                                        $("<p class='message shoutout'>" + getChannel + "</p>").appendTo(".alertItem");
+                                    });
+                                });
+                            } else {
+                                $("<video class='video' autoplay><source src='./media/" + obj.video + "' type='video/webm'></video>").appendTo(".alertItem");
+                            }
                         }
                         if (obj.image) {
                             $("<img class='image' src='./media/" + obj.image + "'/>").appendTo(".alertItem");
