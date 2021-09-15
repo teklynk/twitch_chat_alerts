@@ -40,6 +40,7 @@ these token using the bot account and not your main account.
 
 **data.json** contains the alert actions.
 
+### Example data.json file with variables
 ```
 [
   {
