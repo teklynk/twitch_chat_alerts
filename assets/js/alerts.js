@@ -42,8 +42,7 @@ $(document).ready(function () {
     let blockList = localStorage.getItem("blocks");
 
     if (!jsonData || !authtokens || !blockList) {
-        //$(location).attr("href", "alerts.html?bot=" + botName + "&channel=" + channelName);
-        alert('data.json or auth.json or block.json not found.');
+        alert('data.json or auth.json or block.json not found. If these file do exist, try refreshing the browser.');
     }
 
     let blockedUsernames;
@@ -243,7 +242,7 @@ $(document).ready(function () {
                                             let thumbPart = info.data[0]['thumbnail_url'].split("-preview-");
                                             thumbPart = thumbPart[0] + ".mp4";
                                             $("<video class='video' autoplay><source src='" + thumbPart + "' type='video/mp4'></video>").appendTo(".alertItem");
-                                            $("<p class='message shoutout'>" + getChannel + "</p>").appendTo(".alertItem");
+                                            $("<p class='message shoutout'>Go check out <span class='username'>" + getChannel + "</span></p>").appendTo(".alertItem");
                                         }
                                     });
                                 });
