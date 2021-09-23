@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Basic&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=VT323');
+@import url('https://fonts.googleapis.com/css2?family=Basic');
 
 body {
     overflow: hidden;
@@ -27,6 +27,9 @@ body {
 .alertItem span.method {
     color: #0032fd;
 }
+.alertItem span.channel {
+    color: #0032fd;
+}
 .alertItem p.message {
     margin-top: 0;
     z-index: 99;
@@ -40,8 +43,16 @@ body {
 }
 .alertItem .image {
     z-index: 1;
-    border: solid 1px transparent;
+    border: solid 0 transparent;
     border-radius: 10px;
+}
+.alertItem .logo {
+    z-index: 1;
+    border: solid 0 transparent;
+    border-radius: 50%;
+    max-width:  200px;
+    background: white;
+    animation: glow-logo 1s ease-in-out infinite alternate;
 }
 .alertItem audio {
     display: none;
@@ -51,7 +62,7 @@ body {
     max-height: 350px;
     text-align: center;
     z-index: 1;
-    border: solid 1px transparent;
+    border: solid 0 transparent;
     border-radius: 10px;
 }
 .alertItem image {
@@ -65,5 +76,13 @@ body {
     }
     to {
         text-shadow: 0 0 20px #0000ff, 0 0 30px #ff0000, 0 0 40px #ff0000, 0 0 50px #ff0000, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+    }
+}
+@-webkit-keyframes glow-logo {
+    from {
+        box-shadow: 0 0 10px #0000ff, 0 0 20px #fff, 0 0 30px #ff0000, 0 0 40px #ff0000, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+    }
+    to {
+        box-shadow: 0 0 20px #0000ff, 0 0 30px #ff0000, 0 0 40px #ff0000, 0 0 50px #ff0000, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
     }
 }

@@ -218,11 +218,14 @@ $(document).ready(function () {
                         console.log(obj.message);
                         console.log(obj.timelimit);
 
+                        getChannel = message.substr(4);
+
                         messageStr = obj.message.replace("{username}", "<span class='username'>" + username + "</span>");
                         messageStr = messageStr.replace("{viewers}", "<span class='viewers'>" + viewers + "</span>");
                         messageStr = messageStr.replace("{message}", "<span class='msg'>" + message + "</span>");
                         messageStr = messageStr.replace("{bits}", "<span class='bits'>" + userstate + "</span>");
                         messageStr = messageStr.replace("{months}", "<span class='months'>" + months + "</span>");
+                        messageStr = messageStr.replace("{channel}", "<span class='channel'>" + getChannel + "</span>");
 
                         //remove divs before displaying new alerts
                         $("#container .alertItem").remove();
@@ -251,7 +254,13 @@ $(document).ready(function () {
                             }
                         }
                         if (obj.image) {
-                            $("<img class='image' src='./media/" + obj.image + "'/>").appendTo(".alertItem");
+                            if (obj.image === "{logo}") {
+                                getInfo(getChannel, function (data) {
+                                    $("<img class='image logo' src='" + data.data[0]['profile_image_url'] + "'/>").appendTo(".alertItem");
+                                });
+                            } else {
+                                $("<img class='image' src='./media/" + obj.image + "'/>").appendTo(".alertItem");
+                            }
                         }
                         if (obj.message) {
                             $("<p class='message'>" + messageStr + "</p>").appendTo(".alertItem");
