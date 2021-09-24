@@ -126,7 +126,7 @@ $(document).ready(function () {
 
                 if (!blockedUser) {
                     localStorage.setItem("followerName", data.data[0]['from_name']);
-                    getAlert('follow', localStorage.getItem("followerName"));
+                    getAlert('follow', localStorage.getItem("followerName"), null, null, null, null, null);
                 } else {
                     console.log('blocked: ' + data.data[0]['from_name']);
                 }
@@ -208,7 +208,7 @@ $(document).ready(function () {
                     }
 
                     // on screen alerts
-                    // 3 second delay between alerts
+                    // 2 second delay between alerts
                     setTimeout(function () {
 
                         console.log(obj.command);
@@ -217,6 +217,7 @@ $(document).ready(function () {
                         console.log(obj.video);
                         console.log(obj.message);
                         console.log(obj.timelimit);
+                        console.log(obj.perm);
 
                         getChannel = message.substr(4);
 
@@ -272,7 +273,7 @@ $(document).ready(function () {
                             $(this).remove();
                         });
 
-                    }, 3000);
+                    }, 2000);
                 }
 
             }
@@ -292,13 +293,13 @@ $(document).ready(function () {
     client.connect().catch(console.error);
 
     // triggers on hosted
-    client.on("hosted", (channel, username, viewers, autohost) => {    
+    client.on("hosted", (channel, username, viewers, autohost) => {
         console.log('hosted: ' + username);
         getAlert('hosted', username, viewers, null, null, null, null);
     });
 
     // triggers on raid
-    client.on("raided", (channel, username, viewers) => { 
+    client.on("raided", (channel, username, viewers) => {
         console.log('raided: ' + username);
         getAlert('raided', username, viewers, null, null, null, null);
     });
@@ -323,7 +324,7 @@ $(document).ready(function () {
 
     // triggers on message
     client.on('chat', (channel, user, message, self) => {
-        messageCnt ++;
+        messageCnt++;
 
         let chatmessage = message.replace(/(<([^>]+)>)/ig, "");
 
