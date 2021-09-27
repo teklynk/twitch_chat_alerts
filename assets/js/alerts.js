@@ -234,7 +234,8 @@ $(document).ready(function () {
                         $("<div class='alertItem'>").appendTo("#container");
 
                         if (obj.audio) {
-                            $("<audio class='sound' preload='auto' src='./media/" + obj.audio + "' autoplay></audio>").appendTo(".alertItem");
+                            let ext = obj.audio.split('.').pop();
+                            $("<audio class='sound' preload='auto' src='./media/" + obj.audio + "' autoplay type='audio/" + ext + "'></audio>").appendTo(".alertItem");
                         }
                         if (obj.video) {
                             if (alertCommand === '!so' && obj.video === "{randomclip}") {
@@ -251,7 +252,8 @@ $(document).ready(function () {
                                     });
                                 });
                             } else {
-                                $("<video class='video' autoplay><source src='./media/" + obj.video + "' type='video/webm'></video>").appendTo(".alertItem");
+                                let ext = obj.video.split('.').pop();
+                                $("<video class='video' autoplay><source src='./media/" + obj.video + "' type='video/" + ext + "'></video>").appendTo(".alertItem");
                             }
                         }
                         if (obj.image) {
