@@ -154,7 +154,7 @@ $(document).ready(function () {
 
     // Twitch API get clips for !so command
     let getClips = function (refUserID, callback) {
-        let urlC = "https://api.twitch.tv/helix/clips?broadcaster_id=" + refUserID + "&first=5";
+        let urlC = "https://api.twitch.tv/helix/clips?broadcaster_id=" + refUserID + "&first=10";
         let xhrC = new XMLHttpRequest();
         xhrC.open("GET", urlC);
         xhrC.setRequestHeader("Authorization", "Bearer " + authtoken + "");
@@ -191,6 +191,7 @@ $(document).ready(function () {
                         // Shoutout logic
                         if (alertCommand === '!so') {
                             getChannel = message.substr(4);
+                            getChannel = getChannel.replace('@', '');
                             getInfo(getChannel, function (data) {
                                 getDetails(data.data[0]['id'], function (info) {
                                     messageStr = obj.say.replace("{channel}", getChannel);
@@ -220,6 +221,7 @@ $(document).ready(function () {
                         console.log(obj.perm);
 
                         getChannel = message.substr(4);
+                        getChannel = getChannel.replace('@', '');
 
                         messageStr = obj.message.replace("{username}", "<span class='username'>" + username + "</span>");
                         messageStr = messageStr.replace("{viewers}", "<span class='viewers'>" + viewers + "</span>");
@@ -240,6 +242,7 @@ $(document).ready(function () {
                         if (obj.video) {
                             if (alertCommand === '!so' && obj.video === "{randomclip}") {
                                 getChannel = message.substr(4);
+                                getChannel = getChannel.replace('@', '');
                                 getInfo(getChannel, function (data) {
                                     getClips(data.data[0]['id'], function (info) {
                                         // if a clips exists
