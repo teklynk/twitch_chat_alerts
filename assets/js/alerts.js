@@ -249,7 +249,6 @@ $(document).ready(function () {
                                             let thumbPart = info.data[randClip]['thumbnail_url'].split("-preview-");
                                             thumbPart = thumbPart[0] + ".mp4";
                                             $("<video class='video' autoplay><source src='" + thumbPart + "' type='video/mp4'></video>").appendTo(".alertItem");
-                                            $("<p class='message shoutout'>Go check out <span class='username'>" + getChannel + "</span></p>").appendTo(".alertItem");
                                         }
                                     });
                                 });
