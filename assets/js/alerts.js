@@ -258,7 +258,10 @@ $(document).ready(function () {
                         }
                         if (obj.image) {
                             if (obj.image === "{logo}") {
-                                getInfo(getChannel, function (data) {
+                                if (alertCommand === '!so') {
+                                    username = getChannel;
+                                }
+                                getInfo(username, function (data) {
                                     $("<img class='image logo' src='" + data.data[0]['profile_image_url'] + "'/>").appendTo(".alertItem");
                                 });
                             } else {
