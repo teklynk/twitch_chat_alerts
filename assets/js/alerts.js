@@ -154,7 +154,7 @@ $(document).ready(function () {
 
     // Twitch API get clips for !so command
     let getClips = function (refUserID, callback) {
-        let urlC = "https://api.twitch.tv/helix/clips?broadcaster_id=" + refUserID + "&first=1";
+        let urlC = "https://api.twitch.tv/helix/clips?broadcaster_id=" + refUserID + "&first=5";
         let xhrC = new XMLHttpRequest();
         xhrC.open("GET", urlC);
         xhrC.setRequestHeader("Authorization", "Bearer " + authtoken + "");
@@ -244,7 +244,9 @@ $(document).ready(function () {
                                     getClips(data.data[0]['id'], function (info) {
                                         // if a clips exists
                                         if (info.data[0]['id']) {
-                                            let thumbPart = info.data[0]['thumbnail_url'].split("-preview-");
+                                            let numOfClips = info.data.length;
+                                            let randClip = Math.floor(Math.random() * numOfClips);
+                                            let thumbPart = info.data[randClip]['thumbnail_url'].split("-preview-");
                                             thumbPart = thumbPart[0] + ".mp4";
                                             $("<video class='video' autoplay><source src='" + thumbPart + "' type='video/mp4'></video>").appendTo(".alertItem");
                                             $("<p class='message shoutout'>Go check out <span class='username'>" + getChannel + "</span></p>").appendTo(".alertItem");
