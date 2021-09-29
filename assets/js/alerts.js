@@ -156,7 +156,7 @@ $(document).ready(function () {
 
     // Twitch API get clips for !so command
     let getClips = function (refUserID, callback) {
-        let urlC = "https://api.twitch.tv/helix/clips?broadcaster_id=" + refUserID + "&first=10";
+        let urlC = "https://api.twitch.tv/helix/clips?broadcaster_id=" + refUserID + "&first=20";
         let xhrC = new XMLHttpRequest();
         xhrC.open("GET", urlC);
         xhrC.setRequestHeader("Authorization", "Bearer " + authtoken + "");
