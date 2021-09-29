@@ -39,10 +39,12 @@ $(document).ready(function () {
     // get auth tokens from local storage. Use tokens from a bot account and not your main channel.
     let authtokens = localStorage.getItem("alertCreds");
 
+    // get blocked users list
     let blockList = localStorage.getItem("blocks");
 
+    // alert message if no json files found.
     if (!jsonData || !authtokens || !blockList) {
-        alert('data.json or auth.json or block.json not found. If these file do exist, try refreshing the browser.');
+        $('<p class="text-center red p-4">data.json or auth.json or block.json not found. If these file exist, try refreshing the browser.</p>').appendTo('body');
     }
 
     let blockedUsernames;
@@ -177,21 +179,32 @@ $(document).ready(function () {
 
                 let messageStr;
                 let getChannel;
+                let blockedUser = false;
 
-                if (obj.perm === "mods" && client.isMod(channelName, username) || username === channelName) {
-                    doAlert(); //mods only
-                } else if (obj.perm === "all") {
-                    doAlert(); //everyone
+                blockedUsernamesArr.forEach(usersList);
+
+                function usersList(item, index) {
+                    if (username.startsWith(item)) {
+                        blockedUser = true;
+                    }
                 }
 
-                console.log(obj.perm);
+                if (!blockedUser) {
+                    if (obj.perm === "mods" && client.isMod(channelName, username) || username === channelName) {
+                        doAlert(); //mods only
+                    } else if (obj.perm === "all") {
+                        doAlert(); //everyone
+                    }
+                } else {
+                    console.log('blocked: ' + username);
+                }
 
                 function doAlert() {
+                    getChannel = message.substr(4);
+                    getChannel = getChannel.replace('@', '');
                     if (obj.say) {
                         // Shoutout logic
                         if (alertCommand === '!so') {
-                            getChannel = message.substr(4);
-                            getChannel = getChannel.replace('@', '');
                             getInfo(getChannel, function (data) {
                                 getDetails(data.data[0]['id'], function (info) {
                                     messageStr = obj.say.replace("{channel}", getChannel);
@@ -208,81 +221,71 @@ $(document).ready(function () {
                         }
                     }
 
-                    // on screen alerts
-                    // 2 second delay between alerts
-                    setTimeout(function () {
+                    console.log(obj.command);
+                    console.log(obj.image);
+                    console.log(obj.audio);
+                    console.log(obj.video);
+                    console.log(obj.message);
+                    console.log(obj.timelimit);
+                    console.log(obj.perm);
 
-                        console.log(obj.command);
-                        console.log(obj.image);
-                        console.log(obj.audio);
-                        console.log(obj.video);
-                        console.log(obj.message);
-                        console.log(obj.timelimit);
-                        console.log(obj.perm);
+                    messageStr = obj.message.replace("{username}", "<span class='username'>" + username + "</span>");
+                    messageStr = messageStr.replace("{viewers}", "<span class='viewers'>" + viewers + "</span>");
+                    messageStr = messageStr.replace("{message}", "<span class='msg'>" + message + "</span>");
+                    messageStr = messageStr.replace("{bits}", "<span class='bits'>" + userstate + "</span>");
+                    messageStr = messageStr.replace("{months}", "<span class='months'>" + months + "</span>");
+                    messageStr = messageStr.replace("{channel}", "<span class='channel'>" + getChannel + "</span>");
 
-                        getChannel = message.substr(4);
-                        getChannel = getChannel.replace('@', '');
+                    //remove divs before displaying new alerts
+                    $("#container .alertItem").remove();
 
-                        messageStr = obj.message.replace("{username}", "<span class='username'>" + username + "</span>");
-                        messageStr = messageStr.replace("{viewers}", "<span class='viewers'>" + viewers + "</span>");
-                        messageStr = messageStr.replace("{message}", "<span class='msg'>" + message + "</span>");
-                        messageStr = messageStr.replace("{bits}", "<span class='bits'>" + userstate + "</span>");
-                        messageStr = messageStr.replace("{months}", "<span class='months'>" + months + "</span>");
-                        messageStr = messageStr.replace("{channel}", "<span class='channel'>" + getChannel + "</span>");
+                    $("<div class='alertItem'>").appendTo("#container");
 
-                        //remove divs before displaying new alerts
-                        $("#container .alertItem").remove();
-
-                        $("<div class='alertItem'>").appendTo("#container");
-
-                        if (obj.audio) {
-                            let ext = obj.audio.split('.').pop();
-                            $("<audio class='sound' preload='auto' src='./media/" + obj.audio + "' autoplay type='audio/" + ext + "'></audio>").appendTo(".alertItem");
-                        }
-                        if (obj.video) {
-                            if (alertCommand === '!so' && obj.video === "{randomclip}") {
-                                getChannel = message.substr(4);
-                                getChannel = getChannel.replace('@', '');
-                                getInfo(getChannel, function (data) {
-                                    getClips(data.data[0]['id'], function (info) {
-                                        // if a clips exists
-                                        if (info.data[0]['id']) {
-                                            let numOfClips = info.data.length;
-                                            let randClip = Math.floor(Math.random() * numOfClips);
-                                            let thumbPart = info.data[randClip]['thumbnail_url'].split("-preview-");
-                                            thumbPart = thumbPart[0] + ".mp4";
-                                            $("<video class='video' autoplay><source src='" + thumbPart + "' type='video/mp4'></video>").appendTo(".alertItem");
-                                        }
-                                    });
+                    if (obj.audio) {
+                        let ext = obj.audio.split('.').pop();
+                        $("<audio class='sound' preload='auto' src='./media/" + obj.audio + "' autoplay type='audio/" + ext + "'></audio>").appendTo(".alertItem");
+                    }
+                    if (obj.video) {
+                        if (alertCommand === '!so' && obj.video === "{randomclip}") {
+                            getInfo(getChannel, function (data) {
+                                getClips(data.data[0]['id'], function (info) {
+                                    // if clips exist
+                                    if (info.data[0]['id']) {
+                                        let numOfClips = info.data.length;
+                                        let randClip = Math.floor(Math.random() * numOfClips);
+                                        let thumbPart = info.data[randClip]['thumbnail_url'].split("-preview-");
+                                        thumbPart = thumbPart[0] + ".mp4";
+                                        $("<video class='video' autoplay><source src='" + thumbPart + "' type='video/mp4'></video>").appendTo(".alertItem");
+                                    }
                                 });
-                            } else {
-                                let ext = obj.video.split('.').pop();
-                                $("<video class='video' autoplay><source src='./media/" + obj.video + "' type='video/" + ext + "'></video>").appendTo(".alertItem");
+                            });
+                        } else {
+                            let ext = obj.video.split('.').pop();
+                            $("<video class='video' autoplay><source src='./media/" + obj.video + "' type='video/" + ext + "'></video>").appendTo(".alertItem");
+                        }
+                    }
+                    if (obj.image) {
+                        if (obj.image === "{logo}") {
+                            if (alertCommand === '!so') {
+                                username = getChannel;
                             }
+                            getInfo(username, function (data) {
+                                $("<img class='image logo' src='" + data.data[0]['profile_image_url'] + "'/>").appendTo(".alertItem");
+                            });
+                        } else {
+                            $("<img class='image' src='./media/" + obj.image + "'/>").appendTo(".alertItem");
                         }
-                        if (obj.image) {
-                            if (obj.image === "{logo}") {
-                                if (alertCommand === '!so') {
-                                    username = getChannel;
-                                }
-                                getInfo(username, function (data) {
-                                    $("<img class='image logo' src='" + data.data[0]['profile_image_url'] + "'/>").appendTo(".alertItem");
-                                });
-                            } else {
-                                $("<img class='image' src='./media/" + obj.image + "'/>").appendTo(".alertItem");
-                            }
-                        }
-                        if (obj.message) {
-                            $("<p class='message'>" + messageStr + "</p>").appendTo(".alertItem");
-                        }
+                    }
+                    if (obj.message) {
+                        $("<p class='message'>" + messageStr + "</p>").appendTo(".alertItem");
+                    }
 
-                        $("</div>").appendTo("#container");
+                    $("</div>").appendTo("#container");
 
-                        $("#container .alertItem").fadeIn(500).delay(parseInt(obj.timelimit)).fadeOut(500, function () {
-                            $(this).remove();
-                        });
+                    $("#container .alertItem").fadeIn(500).delay(parseInt(obj.timelimit)).fadeOut(500, function () {
+                        $(this).remove();
+                    });
 
-                    }, 500);
                 }
 
             }
@@ -340,7 +343,6 @@ $(document).ready(function () {
         //alert message
         if (user['message-type'] === 'chat') {
             if (chatmessage.startsWith("!")) {
-
                 //alertCommand, username = null, viewers = null, userstate = null, message = null, say = null, months = null
                 getAlert(chatmessage.split(' ')[0], user.username, null, user.state, message, null, null);
             }

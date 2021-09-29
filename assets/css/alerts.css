@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=VT323');
 @import url('https://fonts.googleapis.com/css2?family=Basic');
 
 body {
@@ -6,6 +5,18 @@ body {
     background: transparent;
     padding: 0;
     margin: 0;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.red {
+    color: #ff0000;
+}
+
+.p-4 {
+    padding: 4px;
 }
 
 #container {
@@ -21,25 +32,25 @@ body {
 }
 
 .alertItem span.username {
-    color: #0032fd;
+    color: #fff;
     text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 45px;
 }
 
 .alertItem span.channel {
-    color: #0032fd;
+    color: #fff;
     text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 45px;
 }
 
 .alertItem span.viewers {
-    color: #0032fd;
+    color: #fff;
 }
 
 .alertItem span.method {
-    color: #0032fd;
-}
-
-.alertItem span.channel {
-    color: #0032fd;
+    color: #fff;
 }
 
 .alertItem p.message {
@@ -47,7 +58,7 @@ body {
     z-index: 99;
     position: relative;
     animation: glow 1s ease-in-out infinite alternate;
-    color: #fff;
+    color: #eee;
     font-weight: bold;
     font-size: 40px;
     font-family: 'Basic', sans-serif;
@@ -68,10 +79,6 @@ body {
     min-width: 250px;
     background: transparent;
     animation: down-up 1s ease-in-out infinite alternate;
-}
-
-.alertItem .spin {
-    animation: spin 2s linear infinite;
 }
 
 .alertItem audio {
@@ -102,38 +109,11 @@ body {
     }
 }
 
-@keyframes glow-image {
-    from {
-        box-shadow: 0 0 10px #0000ff, 0 0 20px #fff, 0 0 30px #ff0000, 0 0 40px #ff0000, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
-    }
-    to {
-        box-shadow: 0 0 20px #0000ff, 0 0 30px #ff0000, 0 0 40px #ff0000, 0 0 50px #ff0000, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
-    }
-}
-
 @keyframes down-up {
     from {
-        /*border: solid 0 transparent;*/
         margin: 0 0 0 0;
     }
     to {
-        /*border: solid 8px transparent;*/
         margin: 10px 0 0 0;
-    }
-}
-
-@keyframes spin {
-    100% {
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes pixelate {
-    from {
-        image-rendering: auto;
-    }
-    to {
-        image-rendering: pixelated;
     }
 }
