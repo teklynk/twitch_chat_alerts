@@ -6,7 +6,8 @@
     "message": "Hello World1! {username}",
     "say": "",
     "timelimit": "5000",
-    "perm": "all"
+    "perm": "all",
+    "cooldown": "10000"
   },
   {
     "command": "!alert2",
@@ -15,7 +16,8 @@
     "message": "Hello World2! {username}",
     "say": "",
     "timelimit": "8000",
-    "perm": "mods"
+    "perm": "mods",
+    "cooldown": "10000"
   },
   {
     "command": "!alert3",
@@ -25,7 +27,8 @@
     "message": "Hello World3! {username}",
     "say": "",
     "timelimit": "8000",
-    "perm": "mods"
+    "perm": "mods",
+    "cooldown": "10000"
   },
   {
     "command": "!fart",
@@ -35,7 +38,8 @@
     "message": "",
     "say": "{username} just farted :)",
     "timelimit": "1000",
-    "perm": "all"
+    "perm": "all",
+    "cooldown": "10000"
   },
   {
     "command": "follow",
@@ -44,7 +48,8 @@
     "message": "Thanks for the follow! {username}",
     "say": "",
     "timelimit": "8000",
-    "perm": "all"
+    "perm": "all",
+    "cooldown": "10000"
   },
   {
     "command": "hosted",
@@ -53,7 +58,8 @@
     "message": "Thanks for the host! {username}",
     "say": "",
     "timelimit": "8000",
-    "perm": "all"
+    "perm": "all",
+    "cooldown": "10000"
   },
   {
     "command": "raided",
@@ -62,7 +68,8 @@
     "message": "Thanks for the raid! {username}",
     "say": "",
     "timelimit": "8000",
-    "perm": "all"
+    "perm": "all",
+    "cooldown": "10000"
   },
   {
     "command": "cheer",
@@ -72,7 +79,8 @@
     "message": "Thanks for the {bits} cheers! {username} {message}",
     "say": "",
     "timelimit": "8000",
-    "perm": "all"
+    "perm": "all",
+    "cooldown": "10000"
   },
   {
     "command": "subscription",
@@ -82,7 +90,8 @@
     "message": "{username} just subscribed for {months} months.",
     "say": "",
     "timelimit": "3000",
-    "perm": "all"
+    "perm": "all",
+    "cooldown": "10000"
   },
   {
     "command": "resub",
@@ -92,7 +101,8 @@
     "message": "{username} just resubscribed for {months} months",
     "say": "",
     "timelimit": "3000",
-    "perm": "all"
+    "perm": "all",
+    "cooldown": "10000"
   },
   {
     "command": "!so",
@@ -102,7 +112,8 @@
     "message": "",
     "say": "Go check out {channel}. They were last seen playing: {playing} - {status} {url}",
     "timelimit": "10000",
-    "perm": "mods"
+    "perm": "mods",
+    "cooldown": "10000"
   },
   {
     "command": "!hey",
@@ -112,6 +123,7 @@
     "message": "",
     "say": "Hello @{username}",
     "timelimit": "1000",
-    "perm": "all"
+    "perm": "all",
+    "cooldown": "10000"
   }
 ]

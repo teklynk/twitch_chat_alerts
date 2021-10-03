@@ -73,7 +73,7 @@ these token using the bot account and not your main account.
   },
   {
     "command": "!so",
-    "image": "{logo}",
+    "image": "",
     "audio": "",
     "video": "{randomclip}",
     "message": "Go check out {channel}",
@@ -145,9 +145,9 @@ these token using the bot account and not your main account.
 
 - **!alert** : Custom chat commands that will trigger when someone in chat uses them (!commands, !sfx, !fart, !so, !
   welcome)
-- **!so** : Bot will look up {channel} and say a shout-out message with {playing},{status},{url},{logo} values for the
-  {channel} entered. ie: !so teklynk. If {randomclip} is set for the video, the alert will play a random vod from the
-  channel. if {logo} is set, the alert will pull the user logo from Twitch.
+- **!so** : Bot will look up **{channel}** and say a shout-out message with **{playing}**,**{status}**,**{url}**,**{logo}** values for the
+  **{channel}** entered. ie: !so teklynk. If **{randomclip}** is set for the video, the alert will play a random vod from the
+  channel. if **{logo}** is set, the alert will pull the user logo from Twitch.
 - **follow** : This will trigger when you receive a new follower.
 - **hosted** : This will trigger when someone hosts your channel.
 - **raided** : This will trigger when someone raids your channel.

@@ -10,6 +10,8 @@ $(document).ready(function () {
     let botName = getUrlParameter('bot');
     let channelName = getUrlParameter('channel');
 
+    let date1 = new Date();
+
     if (botName === '') {
         alert('bot is not set in the URL');
     }
@@ -46,6 +48,10 @@ $(document).ready(function () {
     if (!jsonData || !authtokens || !blockList) {
         $('<p class="text-center red p-4">data.json or auth.json or block.json not found. If these file exist, try refreshing the browser.</p>').appendTo('body');
     }
+
+    $.each($.parseJSON(jsonData), function (idx, obj) {
+        localStorage.setItem(obj.command, '0');
+    });
 
     let blockedUsernames;
 
@@ -177,6 +183,27 @@ $(document).ready(function () {
         $.each($.parseJSON(jsonData), function (idx, obj) {
             if (obj.command === alertCommand) {
 
+                let coolDownExpired;
+
+                let coolDown = parseInt(obj.cooldown);
+
+                let date = new Date();
+
+                if (!localStorage.getItem(alertCommand)) {
+                    localStorage.setItem(alertCommand, date.getTime());
+                }
+
+                console.log(parseInt(localStorage.getItem(alertCommand)) + coolDown);
+                console.log(date.getTime());
+
+                if (date.getTime() > parseInt(localStorage.getItem(alertCommand)) + coolDown) {
+                    console.log('cooldown expired');
+                    coolDownExpired = true;
+                    localStorage.setItem(alertCommand, date.getTime());
+                } else {
+                    coolDownExpired = false;
+                }
+
                 let messageStr;
                 let getChannel;
                 let blockedUser = false;
@@ -189,7 +216,7 @@ $(document).ready(function () {
                     }
                 }
 
-                if (!blockedUser) {
+                if (!blockedUser && coolDownExpired === true) {
                     if (obj.perm === "mods" && client.isMod(channelName, username) || username === channelName) {
                         doAlert(); //mods only
                     } else if (obj.perm === "all") {

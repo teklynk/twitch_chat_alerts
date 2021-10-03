@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Basic');
 
-body {
+html, body {
     overflow: hidden;
     background: transparent;
     padding: 0;
