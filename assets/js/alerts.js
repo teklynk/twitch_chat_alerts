@@ -10,8 +10,6 @@ $(document).ready(function () {
     let botName = getUrlParameter('bot');
     let channelName = getUrlParameter('channel');
 
-    let date1 = new Date();
-
     if (botName === '') {
         alert('bot is not set in the URL');
     }
@@ -20,57 +18,18 @@ $(document).ready(function () {
         alert('channel is not set in the URL');
     }
 
-    // load and store json data file
-    $.getJSON("./data.json", function (json) {
-        localStorage.setItem("jsonData", JSON.stringify(json));
-    });
+    let authJson = JSON.parse($.getJSON({'url': "./auth.json", 'async': false}).responseText);
 
-    // load and store json data file
-    $.getJSON("./auth.json", function (json) {
-        localStorage.setItem("alertCreds", JSON.stringify(json));
-    });
+    let jsonData = JSON.parse($.getJSON({'url': "./data.json", 'async': false}).responseText);
 
-    // load and store json data file
-    $.getJSON("./block.json", function (json) {
-        localStorage.setItem("blocks", JSON.stringify(json));
-    });
+    let blockList = JSON.parse($.getJSON({'url': "./block.json", 'async': false}).responseText);
 
-    // get json data from local storage
-    let jsonData = localStorage.getItem("jsonData");
-
-    // get auth tokens from local storage. Use tokens from a bot account and not your main channel.
-    let authtokens = localStorage.getItem("alertCreds");
-
-    // get blocked users list
-    let blockList = localStorage.getItem("blocks");
-
-    // alert message if no json files found.
-    if (!jsonData || !authtokens || !blockList) {
-        $('<p class="text-center red p-4">data.json or auth.json or block.json not found. If these file exist, try refreshing the browser.</p>').appendTo('body');
-    }
-
-    $.each($.parseJSON(jsonData), function (idx, obj) {
-        localStorage.setItem(obj.command, '0');
-    });
-
-    let blockedUsernames;
-
-    $.each($.parseJSON(blockList), function (idx, obj) {
-        blockedUsernames = obj.usernames;
-    });
-
-    blockedUsernames = blockedUsernames.replace(/\s/g, '');
+    let blockedUsernames = blockList[0]['usernames'].replace(/\s/g, '');
     blockedUsernames = blockedUsernames.toLowerCase();
     let blockedUsernamesArr = blockedUsernames.split(',');
     blockedUsernamesArr = blockedUsernamesArr.filter(Boolean);
-
-    let authtoken;
-    let clientId;
-
-    $.each($.parseJSON(authtokens), function (idx, obj) {
-        authtoken = obj.authtoken;
-        clientId = obj.clientid;
-    });
+    let authtoken = authJson[0].authtoken;
+    let clientId = authJson[0].clientid;
 
     // Twitch API: user info: user_id
     function getInfo(channelName, callback) {
@@ -180,7 +139,8 @@ $(document).ready(function () {
 
     // alerts function pulls from data.json
     function getAlert(alertCommand, username = null, viewers = null, userstate = null, message = null, say = null, months = null) {
-        $.each($.parseJSON(jsonData), function (idx, obj) {
+        $.each(jsonData, function (idx, obj) {
+
             if (obj.command === alertCommand) {
 
                 let coolDownExpired;
