@@ -32,17 +32,19 @@ html, body {
 }
 
 .alertItem span.username {
-    color: #fff;
+    color: #ffffff;
     text-transform: uppercase;
     letter-spacing: 2px;
     font-size: 45px;
+    display: block;
 }
 
 .alertItem span.channel {
-    color: #fff;
+    color: #ffffff;
     text-transform: uppercase;
     letter-spacing: 2px;
     font-size: 45px;
+    display: block;
 }
 
 .alertItem span.viewers {
@@ -58,7 +60,7 @@ html, body {
     z-index: 99;
     position: relative;
     animation: glow 1s ease-in-out infinite alternate;
-    color: #eee;
+    color: #ffffff;
     font-weight: bold;
     font-size: 40px;
     font-family: 'Basic', sans-serif;

@@ -187,11 +187,11 @@ $(document).ready(function () {
                 }
 
                 function doAlert() {
-                    getChannel = message.substr(4);
-                    getChannel = getChannel.replace('@', '');
                     if (obj.say) {
                         // Shoutout logic
                         if (alertCommand === '!so') {
+                            getChannel = message.substr(4);
+                            getChannel = getChannel.replace('@', '');
                             getInfo(getChannel, function (data) {
                                 getDetails(data.data[0]['id'], function (info) {
                                     messageStr = obj.say.replace("{channel}", getChannel);
@@ -221,7 +221,7 @@ $(document).ready(function () {
                     messageStr = messageStr.replace("{message}", "<span class='msg'>" + message + "</span>");
                     messageStr = messageStr.replace("{bits}", "<span class='bits'>" + userstate + "</span>");
                     messageStr = messageStr.replace("{months}", "<span class='months'>" + months + "</span>");
-                    messageStr = messageStr.replace("{channel}", "<span class='channel'>" + getChannel + "</span>");
+                    //messageStr = messageStr.replace("{channel}", "<span class='channel'>" + getChannel + "</span>");
 
                     //remove divs before displaying new alerts
                     $("#container .alertItem").remove();
@@ -234,6 +234,8 @@ $(document).ready(function () {
                     }
                     if (obj.video) {
                         if (alertCommand === '!so' && obj.video === "{randomclip}") {
+                            getChannel = message.substr(4);
+                            getChannel = getChannel.replace('@', '');
                             getInfo(getChannel, function (data) {
                                 getClips(data.data[0]['id'], function (info) {
                                     // if clips exist
@@ -254,6 +256,8 @@ $(document).ready(function () {
                     if (obj.image) {
                         if (obj.image === "{logo}") {
                             if (alertCommand === '!so') {
+                                getChannel = message.substr(4);
+                                getChannel = getChannel.replace('@', '');
                                 username = getChannel;
                             }
                             getInfo(username, function (data) {
