@@ -99,7 +99,7 @@ $(document).ready(function () {
                 }
             }
         });
-    }, 1000);
+    }, 30000);
 
     // Twitch API get last game played from a user
     let getDetails = function (channelID, callback) {
@@ -221,7 +221,7 @@ $(document).ready(function () {
                     messageStr = messageStr.replace("{message}", "<span class='msg'>" + message + "</span>");
                     messageStr = messageStr.replace("{bits}", "<span class='bits'>" + userstate + "</span>");
                     messageStr = messageStr.replace("{months}", "<span class='months'>" + months + "</span>");
-                    //messageStr = messageStr.replace("{channel}", "<span class='channel'>" + getChannel + "</span>");
+                    messageStr = messageStr.replace("{channel}", "<span class='channel'>" + getChannel + "</span>");
 
                     //remove divs before displaying new alerts
                     $("#container .alertItem").remove();
