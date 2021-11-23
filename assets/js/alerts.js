@@ -24,6 +24,8 @@ $(document).ready(function () {
 
     let blockList = JSON.parse($.getJSON({'url': "./block.json", 'async': false}).responseText);
 
+    let notifications = JSON.parse($.getJSON({'url': "./notifications.json", 'async': false}).responseText);
+
     let blockedUsernames = blockList[0]['usernames'].replace(/\s/g, '');
     blockedUsernames = blockedUsernames.toLowerCase();
     let blockedUsernamesArr = blockedUsernames.split(',');
@@ -339,5 +341,17 @@ $(document).ready(function () {
             }
         }
     });
+
+    // Random notifications
+    // if message count is greater than 10 and 5 minutes has passed, then say a random message in chat
+    if (notifications.length > 0) {
+        setInterval(function() {
+            let randomNotice = notifications[Math.floor(Math.random() * notifications.length)]; // pull random message from array
+            if (messageCnt >= 10) {
+                client.say(channelName, randomNotice.say);
+                messageCnt = 0; // reset to zero
+            }
+        }, 300000); // check every 5 minutes
+    }
 
 });
