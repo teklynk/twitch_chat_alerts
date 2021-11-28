@@ -7,8 +7,8 @@ $(document).ready(function () {
         return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
     }
 
-    let botName = getUrlParameter('bot');
-    let channelName = getUrlParameter('channel');
+    let botName = getUrlParameter('bot').toLowerCase();
+    let channelName = getUrlParameter('channel').toLowerCase();
 
     if (botName === '') {
         alert('bot is not set in the URL');
