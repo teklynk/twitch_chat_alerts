@@ -31,15 +31,12 @@ $(document).ready(function () {
     let blockedUsernamesArr = blockedUsernames.split(',');
     blockedUsernamesArr = blockedUsernamesArr.filter(Boolean);
     let authtoken = authJson[0].authtoken;
-    let clientId = authJson[0].clientid;
 
     // Twitch API: user info: user_id
     function getInfo(channelName, callback) {
-        let urlI = "https://api.twitch.tv/helix/users?login=" + channelName + "";
+        let urlI = "https://twitchapi.teklynk.com/getuserinfo.php?channel=" + channelName + "";
         let xhrI = new XMLHttpRequest();
         xhrI.open("GET", urlI);
-        xhrI.setRequestHeader("Authorization", "Bearer " + authtoken + "");
-        xhrI.setRequestHeader("Client-Id", clientId);
         xhrI.onreadystatechange = function () {
             if (xhrI.readyState === 4 && xhrI.status === 200) {
                 callback(JSON.parse(xhrI.responseText));
@@ -52,20 +49,11 @@ $(document).ready(function () {
         xhrI.send();
     }
 
-    // get user id and user data on load
-    getInfo(channelName, function (data) {
-        localStorage.setItem("userId", data.data[0]['id']);
-        localStorage.setItem("userName", data.data[0]['display_name']);
-        localStorage.setItem("userData", JSON.stringify(data));
-    });
-
     // Twitch API: recent follow
-    let getFollows = function (refUserID, callback) {
-        let urlF = "https://api.twitch.tv/helix/users/follows?first=1&to_id=" + refUserID + "";
+    let getFollows = function (channelName, callback) {
+        let urlF = "https://twitchapi.teklynk.com/getuserfollows.php?channel=" + channelName + "&limit=1";
         let xhrF = new XMLHttpRequest();
         xhrF.open("GET", urlF);
-        xhrF.setRequestHeader("Authorization", "Bearer " + authtoken + "");
-        xhrF.setRequestHeader("Client-Id", clientId);
         xhrF.onreadystatechange = function () {
             if (xhrF.readyState === 4) {
                 callback(JSON.parse(xhrF.responseText));
@@ -77,12 +65,10 @@ $(document).ready(function () {
         xhrF.send();
     };
 
-    // check for new follows every 1 second
+    // check for new follows every 30 second
     setInterval(function () {
         // get recent follower
-        getFollows(localStorage.getItem("userId"), function (data) {
-            localStorage.setItem("followerId", data.data[0]['from_id']);
-            localStorage.setItem("followerData", JSON.stringify(data));
+        getFollows(channelName, function (data) {
             let blockedUser = false;
             if (data.data[0]['from_name'] !== localStorage.getItem("followerName")) {
                 blockedUsernamesArr.forEach(usersList);
@@ -104,12 +90,10 @@ $(document).ready(function () {
     }, 30000);
 
     // Twitch API get last game played from a user
-    let getDetails = function (channelID, callback) {
-        let urlG = "https://api.twitch.tv/kraken/channels/" + channelID + "";
+    let getDetails = function (channelName, callback) {
+        let urlG = "https://twitchapi.teklynk.com/getuserstatus.php?channel=" + channelName + "";
         let xhrG = new XMLHttpRequest();
         xhrG.open("GET", urlG);
-        xhrG.setRequestHeader("Accept", "application/vnd.twitchtv.v5+json");
-        xhrG.setRequestHeader("Client-Id", clientId);
         xhrG.onreadystatechange = function () {
             if (xhrG.readyState === 4) {
                 callback(JSON.parse(xhrG.responseText));
@@ -122,12 +106,10 @@ $(document).ready(function () {
     };
 
     // Twitch API get clips for !so command
-    let getClips = function (refUserID, callback) {
-        let urlC = "https://api.twitch.tv/helix/clips?broadcaster_id=" + refUserID + "&first=20";
+    let getClips = function (channelName, callback) {
+        let urlC = "https://twitchapi.teklynk.com/getuserclips.php?channel=" + channelName + "&limit=20";
         let xhrC = new XMLHttpRequest();
         xhrC.open("GET", urlC);
-        xhrC.setRequestHeader("Authorization", "Bearer " + authtoken + "");
-        xhrC.setRequestHeader("Client-Id", clientId);
         xhrC.onreadystatechange = function () {
             if (xhrC.readyState === 4) {
                 callback(JSON.parse(xhrC.responseText));
@@ -194,16 +176,14 @@ $(document).ready(function () {
                         if (alertCommand === '!so') {
                             getChannel = message.substr(4);
                             getChannel = getChannel.replace('@', '');
-                            getInfo(getChannel, function (data) {
-                                getDetails(data.data[0]['id'], function (info) {
-                                    messageStr = obj.say.replace("{channel}", getChannel);
-                                    messageStr = messageStr.replace("{playing}", info['game']);
-                                    messageStr = messageStr.replace("{status}", info['status']);
-                                    messageStr = messageStr.replace("{url}", info['url']);
+                                getDetails(getChannel, function (info) {
+                                    messageStr = obj.say.replace("{channel}", info.data[0]['broadcaster_name']);
+                                    messageStr = messageStr.replace("{playing}", info.data[0]['game_name']);
+                                    messageStr = messageStr.replace("{status}", info.data[0]['title']);
+                                    messageStr = messageStr.replace("{url}", "https://twitch.tv/" + info.data[0]['broadcaster_login'] + "");
                                     console.log(messageStr);
                                     client.say(channelName, messageStr);
                                 });
-                            });
                         } else {
                             messageStr = obj.say.replace("{username}", username);
                             client.say(channelName, messageStr);
@@ -238,21 +218,19 @@ $(document).ready(function () {
                         if (alertCommand === '!so' && obj.video === "{randomclip}") {
                             getChannel = message.substr(4);
                             getChannel = getChannel.replace('@', '');
-                            getInfo(getChannel, function (data) {
-                                getClips(data.data[0]['id'], function (info) {
+                                getClips(getChannel, function (info) {
                                     // if clips exist
                                     if (info.data[0]['id']) {
                                         let numOfClips = info.data.length;
                                         let randClip = Math.floor(Math.random() * numOfClips);
                                         let thumbPart = info.data[randClip]['thumbnail_url'].split("-preview-");
                                         thumbPart = thumbPart[0] + ".mp4";
-                                        $("<video class='video' autoplay><source src='" + thumbPart + "' type='video/mp4'></video>").appendTo(".alertItem");
+                                        $("<video id='clip' class='video' autoplay src='" + thumbPart + "' type='video/mp4'><source src='" + thumbPart + "' type='video/mp4'></video>").appendTo(".alertItem");
                                     }
                                 });
-                            });
                         } else {
                             let ext = obj.video.split('.').pop();
-                            $("<video class='video' autoplay><source src='./media/" + obj.video + "' type='video/" + ext + "'></video>").appendTo(".alertItem");
+                            $("<video class='video' autoplay src='./media/" + obj.video + "'><source src='./media/" + obj.video + "' type='video/" + ext + "'></video>").appendTo(".alertItem");
                         }
                     }
                     if (obj.image) {
@@ -349,7 +327,7 @@ $(document).ready(function () {
             let randomNotice = notifications[Math.floor(Math.random() * notifications.length)]; // pull random message from array
             if (messageCnt >= 10 && randomNotice.say > "") {
                 client.say(channelName, randomNotice.say);
-                messageCnt = 0; // reset to zero
+                messageCnt = 0; // reset to message count zero and start over.
             }
         }, 300000); // check every 5 minutes
     }
