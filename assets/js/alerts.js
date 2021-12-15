@@ -325,7 +325,7 @@ $(document).ready(function () {
     if (notifications.length > 0) {
         setInterval(function() {
             let randomNotice = notifications[Math.floor(Math.random() * notifications.length)]; // pull random message from array
-            if (messageCnt >= 10 && randomNotice.say > "") {
+            if (messageCnt >= 20 && randomNotice.say > "") {
                 client.say(channelName, randomNotice.say);
                 messageCnt = 0; // reset to message count zero and start over.
             }

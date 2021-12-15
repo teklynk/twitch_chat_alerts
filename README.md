@@ -49,7 +49,8 @@ these token using the bot account and not your main account.
     "message": "Hello World1! {username}",
     "say": "",
     "timelimit": "5000",
-    "perm": "mods"
+    "perm": "mods",
+    "cooldown": "10000"
   },
   {
     "command": "!fart",
@@ -59,7 +60,8 @@ these token using the bot account and not your main account.
     "message": "",
     "say": "{username} just farted :)",
     "timelimit": "1000",
-    "perm": "all"
+    "perm": "all",
+    "cooldown": "10000"
   },
     {
     "command": "!hey,
@@ -69,7 +71,8 @@ these token using the bot account and not your main account.
     "message": "",
     "say": "hello @{username} :)",
     "timelimit": "1000",
-    "perm": "all"
+    "perm": "all",
+    "cooldown": "10000"
   },
   {
     "command": "!so",
@@ -79,7 +82,8 @@ these token using the bot account and not your main account.
     "message": "Go check out {channel}",
     "say": "Go check out @{channel}. They were last seen playing: {playing} - {status} {url}",
     "timelimit": "10000",
-    "perm": "mods"
+    "perm": "mods",
+    "cooldown": "10000"
   },
   {
     "command": "follow",
@@ -88,7 +92,8 @@ these token using the bot account and not your main account.
     "message": "Thanks for the follow! {username}",
     "say": "",
     "timelimit": "8000",
-    "perm": "mods"
+    "perm": "mods",
+    "cooldown": "10000"
   },
   {
     "command": "hosted",
@@ -97,7 +102,8 @@ these token using the bot account and not your main account.
     "message": "Thanks for the host! {username}",
     "say": "",
     "timelimit": "8000",
-    "perm": "mods"
+    "perm": "mods",
+    "cooldown": "10000"
   },
   {
     "command": "raided",
@@ -106,7 +112,8 @@ these token using the bot account and not your main account.
     "message": "Thanks for the raid! {username}",
     "say": "",
     "timelimit": "8000",
-    "perm": "mods"
+    "perm": "mods",
+    "cooldown": "10000"
   },
   {
     "command": "cheer",
@@ -116,7 +123,8 @@ these token using the bot account and not your main account.
     "message": "Thanks for the {bits} cheers! {username} {message}",
     "say": "",
     "timelimit": "8000",
-    "perm": "mods"
+    "perm": "mods",
+    "cooldown": "10000"
   },
   {
     "command": "subscription",
@@ -126,7 +134,8 @@ these token using the bot account and not your main account.
     "message": "{username} just subscribed",
     "say": "",
     "timelimit": "3000",
-    "perm": "mods"
+    "perm": "mods",
+    "cooldown": "10000"
   },
   {
     "command": "resub",
@@ -136,7 +145,8 @@ these token using the bot account and not your main account.
     "message": "{username} just resubscribed for {months} months",
     "say": "",
     "timelimit": "3000",
-    "perm": "mods"
+    "perm": "mods",
+    "cooldown": "10000"
   }
 ]
 ```
@@ -177,8 +187,7 @@ assets/css/alerts.css
 
 - Setup a simple NGINX web server on your local machine.
 - Use XAMPP, WampServer.
-- If you have Python installed on your machine, you can run a simple http web server using python. This project includes
-  a **webserver.sh** script that will start the python web server.
+- If you have Python installed on your machine, you can run a simple http web server using python.
 
 **Python3:**
 
