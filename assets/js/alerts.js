@@ -7,8 +7,8 @@ $(document).ready(function () {
         return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
     }
 
-    let botName = getUrlParameter('bot').toLowerCase();
-    let channelName = getUrlParameter('channel').toLowerCase();
+    let botName = getUrlParameter('bot').toLowerCase().trim();
+    let channelName = getUrlParameter('channel').toLowerCase().trim();
 
     if (botName === '') {
         alert('bot is not set in the URL');
@@ -27,7 +27,7 @@ $(document).ready(function () {
     let notifications = JSON.parse($.getJSON({'url': "./notifications.json", 'async': false}).responseText);
 
     let blockedUsernames = blockList[0]['usernames'].replace(/\s/g, '');
-    blockedUsernames = blockedUsernames.toLowerCase();
+    blockedUsernames = blockedUsernames.toLowerCase().trim();
     let blockedUsernamesArr = blockedUsernames.split(',');
     blockedUsernamesArr = blockedUsernamesArr.filter(Boolean);
     let authtoken = authJson[0].authtoken;
@@ -87,7 +87,7 @@ $(document).ready(function () {
                 }
             }
         });
-    }, 30000);
+    }, 10000); // every 10 seconds
 
     // Twitch API get last game played from a user
     let getDetails = function (channelName, callback) {
@@ -123,6 +123,12 @@ $(document).ready(function () {
 
     // alerts function pulls from data.json
     function getAlert(alertCommand, username = null, viewers = null, userstate = null, message = null, say = null, months = null) {
+
+        // ignore if already playing an alert
+        if ($('.alertItem').length) {
+            return false;
+        }
+
         $.each(jsonData, function (idx, obj) {
 
             if (obj.command === alertCommand) {
@@ -171,11 +177,14 @@ $(document).ready(function () {
                 }
 
                 function doAlert() {
+
                     if (obj.say) {
                         // Shoutout logic
                         if (alertCommand === '!so') {
                             getChannel = message.substr(4);
                             getChannel = getChannel.replace('@', '');
+                            getChannel = getChannel.trim();
+                            getChannel = getChannel.toLowerCase();
                                 getDetails(getChannel, function (info) {
                                     messageStr = obj.say.replace("{channel}", info.data[0]['broadcaster_name']);
                                     messageStr = messageStr.replace("{playing}", info.data[0]['game_name']);
@@ -205,7 +214,7 @@ $(document).ready(function () {
                     messageStr = messageStr.replace("{months}", "<span class='months'>" + months + "</span>");
                     messageStr = messageStr.replace("{channel}", "<span class='channel'>" + getChannel + "</span>");
 
-                    //remove divs before displaying new alerts
+                    // remove divs before displaying new alert
                     $("#container .alertItem").remove();
 
                     $("<div class='alertItem'>").appendTo("#container");
@@ -218,6 +227,8 @@ $(document).ready(function () {
                         if (alertCommand === '!so' && obj.video === "{randomclip}") {
                             getChannel = message.substr(4);
                             getChannel = getChannel.replace('@', '');
+                            getChannel = getChannel.trim();
+                            getChannel = getChannel.toLowerCase();
                                 getClips(getChannel, function (info) {
                                     // if clips exist
                                     if (info.data[0]['id']) {
@@ -238,6 +249,8 @@ $(document).ready(function () {
                             if (alertCommand === '!so') {
                                 getChannel = message.substr(4);
                                 getChannel = getChannel.replace('@', '');
+                                getChannel = getChannel.trim();
+                                getChannel = getChannel.toLowerCase();
                                 username = getChannel;
                             }
                             getInfo(username, function (data) {
@@ -307,6 +320,12 @@ $(document).ready(function () {
 
     // triggers on message
     client.on('chat', (channel, user, message, self) => {
+
+        // Ignore echoed messages.
+        if (self) {
+            return false;
+        }
+
         messageCnt++;
 
         let chatmessage = message.replace(/(<([^>]+)>)/ig, "");
@@ -321,15 +340,15 @@ $(document).ready(function () {
     });
 
     // Random notifications
-    // if message count is greater than 10 and 5 minutes has passed, then say a random message in chat
+    // if message count is greater than 30 and 10 minutes has passed, then say a random message in chat
     if (notifications.length > 0) {
         setInterval(function() {
             let randomNotice = notifications[Math.floor(Math.random() * notifications.length)]; // pull random message from array
-            if (messageCnt >= 20 && randomNotice.say > "") {
+            if (messageCnt >= 30 && randomNotice.say > "") {
+                messageCnt = 0; // reset message count to zero and start over.
                 client.say(channelName, randomNotice.say);
-                messageCnt = 0; // reset to message count zero and start over.
             }
-        }, 300000); // check every 5 minutes
+        }, 600000); // check every 10 minutes
     }
 
 });
