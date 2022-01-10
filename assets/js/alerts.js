@@ -65,7 +65,7 @@ $(document).ready(function () {
         xhrF.send();
     };
 
-    // check for new follows every 30 second
+    // check for new follows every 10 second
     setInterval(function () {
         // get recent follower
         getFollows(channelName, function (data) {
@@ -83,7 +83,7 @@ $(document).ready(function () {
                     localStorage.setItem("followerName", data.data[0]['from_name']);
                     getAlert('follow', localStorage.getItem("followerName"), null, null, null, null, null);
                 } else {
-                    console.log('blocked: ' + data.data[0]['from_name']);
+                    console.log('blocked follow: ' + data.data[0]['from_name']);
                 }
             }
         });
@@ -173,7 +173,7 @@ $(document).ready(function () {
                         doAlert(); //everyone
                     }
                 } else {
-                    console.log('blocked: ' + username);
+                    console.log('blocked alert: ' + username);
                 }
 
                 function doAlert() {
@@ -278,7 +278,10 @@ $(document).ready(function () {
 
     const client = new tmi.Client({
         options: {debug: true},
-        connection: {reconnect: true},
+        connection: {
+            reconnect: true,
+            secure: true,
+        },
         identity: {
             username: botName,
             password: 'oauth:' + authtoken
