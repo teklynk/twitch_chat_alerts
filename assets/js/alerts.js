@@ -32,6 +32,13 @@ $(document).ready(function () {
     blockedUsernamesArr = blockedUsernamesArr.filter(Boolean);
     let authtoken = authJson[0].authtoken;
 
+    // Initial load of all commands into localStorage. Refreshing the broswer source will reset cooldown to zero
+    if (jsonData.length) {
+        for (let x in jsonData) {
+            localStorage.setItem(jsonData[x]['command'], 0);
+        }
+    }
+
     // Twitch API: user info: user_id
     function getInfo(channelName, callback) {
         let urlI = "https://twitchapi.teklynk.com/getuserinfo.php?channel=" + channelName + "";
