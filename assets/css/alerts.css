@@ -71,6 +71,7 @@ html, body {
     z-index: 1;
     border: solid 0 transparent;
     border-radius: 10px;
+    animation: grow 1s;
 }
 
 .alertItem .logo {
@@ -80,7 +81,7 @@ html, body {
     max-width: 250px;
     min-width: 250px;
     background: transparent;
-    animation: down-up 1s ease-in-out infinite alternate;
+    animation: grow 1s, down-up 1s ease-in-out infinite alternate;
 }
 
 .alertItem audio {
@@ -94,6 +95,7 @@ html, body {
     z-index: 1;
     border: solid 0 transparent;
     border-radius: 10px;
+    animation: grow 1s;
 }
 
 .alertItem image {
@@ -117,5 +119,14 @@ html, body {
     }
     to {
         margin: 10px 0 0 0;
+    }
+}
+
+@keyframes grow {
+    from {
+        transform:scale(0);
+    }
+    to {
+        transform:scale(1);
     }
 }
