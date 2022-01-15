@@ -1,6 +1,6 @@
 # Twitch alerts overlay
 
-### ** Do not use this on a public server. This is meant to run locally (localhost) or on an internal server (http://192.168.xx/alerts.html...)
+### ** Do not use this on a public server. This is meant to run locally (localhost) or on an internal server (http://localhost/alerts.html...)
 
 ### Twitch oAuth
 
@@ -28,9 +28,9 @@ example: http://localhost/twitch_chat_alerts/alerts.html?bot=CoolBot&channel=MrS
 
 ### JSON config files
 
-- Rename sample.data.json to data.json
-- Rename sample.auth.json to auth.json
-- Rename sample.block.json to block.json
+- Rename **sample.data.json** to **data.json**
+- Rename **sample.auth.json** to **auth.json**
+- Rename **sample.block.json** to **block.json**
 
 Edit **data.json**. Add your own custom !action commands, !so and other bot responses.
 
@@ -38,6 +38,8 @@ Edit **data.json**. Add your own custom !action commands, !so and other bot resp
 these token using the bot account and not your main account.
 
 **data.json** contains the alert actions.
+
+**block.json** contains a list of users to block from using alerts.
 
 ### Example data.json file with variables
 ```
@@ -151,6 +153,16 @@ these token using the bot account and not your main account.
 ]
 ```
 
+- **"command":** Your alert command.
+- **"image":** Show image in the overlay
+- **"audio":** Plays an audio file
+- **"video":** Plays a video file
+- **"message":** Displays a message in the overlay
+- **"say":** Says a message in chat
+- **"timelimit":** (miliseconds) How long the alert runs
+- **"perm":** all/mods. Limits the alert to mod only or available to everyone
+- **"cooldown":** (miliseconds) Length of time before the command can be used again
+
 ### Alert Commands
 
 - **!alert** : Custom chat commands that will trigger when someone in chat uses them (!commands, !sfx, !fart, !so, !
@@ -176,7 +188,7 @@ these token using the bot account and not your main account.
 ### Media Support
 Place all media (images, sounds, videos) inside the media folder/directory
 
-- **Video** : webm, ogg, mp4 (Linux OBS browser source does not seem to like mp4's)
+- **Video** : webm, ogg, mp4
 - **Audio** : mp3, ogg
 - **Images** : gif, png, jpg
 
@@ -186,14 +198,7 @@ assets/css/alerts.css
 
 ### Install and Run
 
+- Clone or download this repo.
 - Setup a simple NGINX web server on your local machine.
 - Use XAMPP, WampServer.
-- If you have Python installed on your machine, you can run a simple http web server using python.
-
-**Python3:**
-
-python3 -m http.server 8000 --bind 127.0.0.1
-
-**Python2:**
-
-python2 -m SimpleHTTPServer 8000
+- If you have Python installed on your machine, you can run a simple http web server using python. `python3 -m http.server 8000 --bind 127.0.0.1` OR `python2 -m SimpleHTTPServer 8000`
