@@ -31,6 +31,7 @@ example: http://localhost/twitch_chat_alerts/alerts.html?bot=CoolBot&channel=MrS
 - Rename **sample.data.json** to **data.json**
 - Rename **sample.auth.json** to **auth.json**
 - Rename **sample.block.json** to **block.json**
+- Rename **sample.notifications.json** to **notifications.json**
 
 Edit **data.json**. Add your own custom !action commands, !so and other bot responses.
 
@@ -40,6 +41,8 @@ these token using the bot account and not your main account.
 **data.json** contains the alert actions.
 
 **block.json** contains a list of users to block from using alerts.
+
+**notifications.json** is used to send a random chat message on a timed interval (after 30 messages and longer than 10 minutes)
 
 ### Example data.json file with variables
 ```
