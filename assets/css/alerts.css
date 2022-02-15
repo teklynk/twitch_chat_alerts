@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Basic');
 
-html, body {
+body {
+    border: solid 50px transparent;
     overflow: hidden;
     background: transparent;
     padding: 0;
@@ -89,13 +90,13 @@ html, body {
 }
 
 .alertItem video {
-    max-width: 350px;
-    max-height: 350px;
+    max-width: 800px;
+    max-height: 800px;
     text-align: center;
     z-index: 1;
     border: solid 0 transparent;
     border-radius: 10px;
-    animation: grow 1s;
+    animation: grow 1s ease-in-out;
 }
 
 .alertItem image {
@@ -128,5 +129,14 @@ html, body {
     }
     to {
         transform:scale(1);
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
     }
 }
