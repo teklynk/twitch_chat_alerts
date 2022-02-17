@@ -2,6 +2,8 @@
 
 ### ** Do not use this on a public server. This is meant to run locally (localhost) or on an internal server (http://localhost/alerts.html...)
 
+Future developemnt can be tracked here: [https://github.com/teklynk/twitch_chat_alerts/projects/1](https://github.com/teklynk/twitch_chat_alerts/projects/1)
+
 ### Twitch oAuth
 
 Tokens can be generated from [https://twitchtokengenerator.com/](https://twitchtokengenerator.com/)
