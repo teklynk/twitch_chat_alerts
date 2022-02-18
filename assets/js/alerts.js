@@ -128,35 +128,6 @@ $(document).ready(function () {
         xhrC.send();
     };
 
-    function borderAlertEffect(height, timeout, border_size, loop_cnt, speed, bg_from_color, bg_to_color, border_from_color, border_to_color) {
-        let style = document.createElement('style');
-        style.type = 'text/css';
-        let alertCustomStyles = '\
-        body {\
-          animation: border_effect ' + speed + 's ease-in-out alternate;\
-          animation-iteration-count: ' + loop_cnt + ';\
-          height: ' + height + 'px;\
-        }\
-        @keyframes border_effect {\
-            from {\
-                background-color: ' + bg_from_color + ';\
-                border: solid ' + border_size + 'px ' + border_from_color + ';\
-            }\
-            to {\
-                background-color: ' + bg_to_color + ';\
-                border: solid ' + border_size + 'px ' + border_to_color + ';\
-            }\
-        }';
-
-        style.innerHTML = alertCustomStyles;
-        document.getElementsByTagName('head')[0].appendChild(style);
-
-        setTimeout(function () {
-            document.getElementsByTagName('head')[0].removeChild(style);
-        }, timeout);
-
-    }
-
     // alerts function pulls from data.json
     function getAlert(alertCommand, username = null, viewers = null, userstate = null, message = null, say = null, months = null) {
 
@@ -164,9 +135,6 @@ $(document).ready(function () {
         if ($('.alertItem').length) {
             return false;
         }
-
-        // Test with all alerts
-        //borderAlertEffect('980', 15000, '50', '22', '0.5', 'transparent', '#00009980', 'transparent', '#99000080');
 
         $.each(jsonData, function (idx, obj) {
 
@@ -328,7 +296,10 @@ $(document).ready(function () {
     }
 
     const client = new tmi.Client({
-        options: {debug: true},
+        options: {
+            debug: true,
+            skipUpdatingEmotesets: true
+        },
         connection: {
             reconnect: true,
             secure: true,
@@ -351,7 +322,6 @@ $(document).ready(function () {
     // triggers on raid
     client.on("raided", (channel, username, viewers) => {
         console.log('raided: ' + username);
-        borderAlertEffect('980', 15000, '50', '22', '0.5', 'transparent', '#00009980', 'transparent', '#99000080');
         getAlert('raided', username, viewers, null, null, null, null);
     });
 
@@ -387,9 +357,6 @@ $(document).ready(function () {
 
         //alert message
         if (user['message-type'] === 'chat') {
-
-            // TODO: Check username for first time chat. Say welcome message. Set localStorage with timestamp username:12000000 for each user. 
-            // Check If username and timestamp expired, say a welcome back message.
 
             if (chatmessage.startsWith("!")) {
                 //alertCommand, username = null, viewers = null, userstate = null, message = null, say = null, months = null
