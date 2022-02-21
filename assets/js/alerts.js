@@ -380,5 +380,3 @@ $(document).ready(function () {
         }, 600000); // check every 10 minutes
     }
 });
-
-console.log('test');
