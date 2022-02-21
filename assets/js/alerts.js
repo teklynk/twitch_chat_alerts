@@ -221,10 +221,12 @@ $(document).ready(function () {
                     messageStr = messageStr.replace("{months}", "<span class='months'>" + months + "</span>");
                     messageStr = messageStr.replace("{channel}", "<span class='channel'>" + getChannel + "</span>");
 
+                    let cmdClass = obj.command.replace('!', '');
+
                     // remove divs before displaying new alert
                     $("#container .alertItem").remove();
 
-                    $("<div class='alertItem'>").appendTo("#container");
+                    $("<div class='alertItem " + cmdClass + "'>").appendTo("#container");
 
                     if (obj.audio) {
                         let ext = obj.audio.split('.').pop();
