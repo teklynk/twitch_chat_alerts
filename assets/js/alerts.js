@@ -9,6 +9,7 @@ $(document).ready(function () {
 
     let botName = getUrlParameter('bot').toLowerCase().trim();
     let channelName = getUrlParameter('channel').toLowerCase().trim();
+    let notify = getUrlParameter('notify').toLowerCase().trim();
 
     if (botName === '') {
         alert('bot is not set in the URL');
@@ -16,6 +17,10 @@ $(document).ready(function () {
 
     if (channelName === '') {
         alert('channel is not set in the URL');
+    }
+
+    if (notify === '') {
+        notify = 'true';
     }
 
     let authJson = JSON.parse($.getJSON({'url': "./auth.json", 'async': false}).responseText);
@@ -369,7 +374,8 @@ $(document).ready(function () {
 
     // Random notifications
     // if message count is greater than 10 and 10 minutes has passed, then say a random message in chat
-    if (notifications.length > 0) {
+    if (notifications.length > 0 && notify === 'true') {
+        console.log('Chat notifications are on');
         let notifyInterval = setInterval(function () {
             let randomNotice = notifications[Math.floor(Math.random() * notifications.length)]; // pull random message from array
             if (messageCnt >= 10 && randomNotice.say > '') {

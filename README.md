@@ -27,6 +27,7 @@ example: http://localhost/twitch_chat_alerts/alerts.html?bot=CoolBot&channel=MrS
 
 - **bot** = Your bot account. This can also be your main account if you do not have a separate bot account.
 - **channel** = Your main channel.
+- **notify** = true/false. Turn notification on or off.
 
 ### JSON config files
 
