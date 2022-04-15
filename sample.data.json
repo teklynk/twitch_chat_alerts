@@ -77,7 +77,7 @@
     "audio": "",
     "video": "",
     "message": "Thanks for the {bits} cheers! {username} {message}",
-    "say": "",
+    "say": "Thanks for the {bits} cheers! {username} {message}",
     "timelimit": "8000",
     "perm": "all",
     "cooldown": "10000"

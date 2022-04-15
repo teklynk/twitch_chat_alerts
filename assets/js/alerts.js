@@ -40,7 +40,7 @@ $(document).ready(function () {
     // Initial load of all commands into localStorage. Refreshing the broswer source will reset cooldown to zero
     if (jsonData.length) {
         for (let x in jsonData) {
-            localStorage.setItem(jsonData[x]['command'], 0);
+            localStorage.setItem(jsonData[x]['command'], '0');
         }
     }
 
@@ -99,7 +99,7 @@ $(document).ready(function () {
                 }
             }
         });
-    }, 10000); // every 10 seconds
+    }, 5000); // every 5 seconds
 
     // Twitch API get last game played from a user
     let getDetails = function (channelName, callback) {
@@ -202,11 +202,14 @@ $(document).ready(function () {
                                 messageStr = messageStr.replace("{playing}", info.data[0]['game_name']);
                                 messageStr = messageStr.replace("{status}", info.data[0]['title']);
                                 messageStr = messageStr.replace("{url}", "https://twitch.tv/" + info.data[0]['broadcaster_login'] + "");
+                                messageStr = messageStr.replace("{message}", message);
                                 console.log(messageStr);
                                 client.say(channelName, messageStr);
                             });
                         } else {
                             messageStr = obj.say.replace("{username}", username);
+                            messageStr = messageStr.replace("{message}", message);
++                           messageStr = messageStr.replace("{bits}", userstate);
                             client.say(channelName, messageStr);
                         }
                     }
