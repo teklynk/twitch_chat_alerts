@@ -209,7 +209,7 @@ $(document).ready(function () {
                         } else {
                             messageStr = obj.say.replace("{username}", username);
                             messageStr = messageStr.replace("{message}", message);
-+                           messageStr = messageStr.replace("{bits}", userstate);
+                            messageStr = messageStr.replace("{bits}", userstate);
                             client.say(channelName, messageStr);
                         }
                     }
