@@ -2,9 +2,24 @@
 
 ### ** Do not use this on a public server. This is meant to run locally (localhost) or on an internal server (http://localhost/alerts.html...)
 
-Future developemnt can be tracked here: [https://github.com/teklynk/twitch_chat_alerts/projects/1](https://github.com/teklynk/twitch_chat_alerts/projects/1)
+Future development can be tracked here: [https://github.com/teklynk/twitch_chat_alerts/projects/1](https://github.com/teklynk/twitch_chat_alerts/projects/1)
 
-### Twitch oAuth
+## Notes
+
+Backup your custom css files and custom js files before pulling new changes. You can also diff the files to see what has changed and merge the changes that you want. 
+
+## Install and Run
+
+- Clone or download this repo.
+- Move files to your web server.
+- Easiest and prefered method for a simple project like this. 
+  - If you have Python installed on your machine, you can run a simple http web server using python. `python3 -m http.server 8000 --bind 127.0.0.1` OR `python2 -m SimpleHTTPServer 8000` (works on Windows, Linux, Mac)
+- Run this from a RaspberryPi server on your home network. Requires Apache, Nginx, Lighttpd
+- Setup a simple NGINX web server on your local machine. (works on Windows, Linux, Mac)
+- Use WampServer (on Windows) or XAMPP (on Linux)
+- Web server running in VirtualBox (works on Windows, Linux, Mac)
+
+## Twitch oAuth
 
 Tokens can be generated from [https://twitchtokengenerator.com/](https://twitchtokengenerator.com/)
 
@@ -21,7 +36,7 @@ Generate a Custom Scope Token with these permissions:
 - user:read:subscription
 - user:read:follows
 
-### URL Parameters
+## URL Parameters
 
 example: http://localhost/twitch_chat_alerts/alerts.html?bot=CoolBot&channel=MrStreamer
 
@@ -29,7 +44,7 @@ example: http://localhost/twitch_chat_alerts/alerts.html?bot=CoolBot&channel=MrS
 - **channel** = Your main channel.
 - **notify** = true/false. Turn notification on or off.
 
-### JSON config files
+## JSON config files
 
 - Rename **sample.data.json** to **data.json**
 - Rename **sample.auth.json** to **auth.json**
@@ -201,10 +216,3 @@ Place all media (images, sounds, videos) inside the media folder/directory
 ### Style Sheet
 
 assets/css/alerts.css
-
-### Install and Run
-
-- Clone or download this repo.
-- Setup a simple NGINX web server on your local machine.
-- Use XAMPP, WampServer.
-- If you have Python installed on your machine, you can run a simple http web server using python. `python3 -m http.server 8000 --bind 127.0.0.1` OR `python2 -m SimpleHTTPServer 8000`
