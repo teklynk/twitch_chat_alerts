@@ -216,3 +216,16 @@ Place all media (images, sounds, videos) inside the media folder/directory
 ### Style Sheet
 
 assets/css/alerts.css
+
+Each command is set as a class name on the alertItem div so that you can add custom css for each alert if needed.
+
+```html
+<style>
+    .alertItem.hello p.message {
+        text-shadow: 2px 2px #990000;
+        font-size: 80px;
+    }
+</style>
+<div class='alertItem hello'></div>
+```
+
