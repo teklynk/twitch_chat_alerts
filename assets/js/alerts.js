@@ -12,7 +12,7 @@ $(document).ready(function () {
     let notify = getUrlParameter('notify').toLowerCase().trim();
 
     // Low res video clips if available. default is disabled
-    let lowResClips = false;
+    let lowResClips = true;
 
     if (botName === '') {
         alert('bot is not set in the URL');
@@ -267,7 +267,7 @@ $(document).ready(function () {
                             });
                         } else {
                             let ext = obj.video.split('.').pop();
-                            $("<video id='clip' class='video' autoplay src='./media/" + obj.video + "'><source src='./media/" + obj.video + "' type='video/" + ext + "'></video>").appendTo(".alertItem");
+                            $("<video id='clip' class='video' autoplay><source src='./media/" + obj.video + "' type='video/" + ext + "'></video>").appendTo(".alertItem");
                         }
 
                         // Auto remove video element if video ends before the timelimit

@@ -56,7 +56,7 @@ Edit **data.json**. Add your own custom !action commands, !so and other bot resp
 **auth.json** contains your Twitch oAuth Token. If you are using a bot account, then you should generate
 these token using the bot account and not your main account.
 
-**data.json** contains the alert actions.
+**data.json** contains the alert actions. [My actual data.json](https://privatebin.teklynk.com/?c9f1454c239960bc#6P3xsdpNrPfARHyeyRjnDgNE9jbGDtXrJv5H7Y2as74P)
 
 **block.json** contains a list of users to block from using alerts.
 
@@ -86,7 +86,7 @@ these token using the bot account and not your main account.
     "perm": "all",
     "cooldown": "10000"
   },
-    {
+  {
     "command": "!hey,
     "image": "",
     "audio": "",
@@ -219,13 +219,11 @@ assets/css/alerts.css
 
 Each command is set as a class name on the alertItem div so that you can add custom css for each alert if needed.
 
-```html
-<style>
-    .alertItem.hello p.message {
-        text-shadow: 2px 2px #990000;
-        font-size: 80px;
-    }
-</style>
-<div class='alertItem hello'></div>
-```
+Example of how to add custom styling to the command called "hello".
 
+```css
+.alertItem.hello p.message {
+    text-shadow: 2px 2px #990000;
+    font-size: 80px;
+}
+```
