@@ -11,6 +11,9 @@ $(document).ready(function () {
     let channelName = getUrlParameter('channel').toLowerCase().trim();
     let notify = getUrlParameter('notify').toLowerCase().trim();
 
+    // Low res video clips if available. default is disabled
+    let lowResClips = false;
+
     if (botName === '') {
         alert('bot is not set in the URL');
     }
@@ -253,8 +256,13 @@ $(document).ready(function () {
                                     let randClip = Math.floor(Math.random() * numOfClips);
                                     let thumbPart = info.data[randClip]['thumbnail_url'].split("-preview-");
                                     thumbPart = thumbPart[0] + ".mp4";
-                                    
-                                    $("<video id='clip' class='video' autoplay src='" + thumbPart + "' type='video/mp4'><source src='" + thumbPart + "' type='video/mp4'></video>").appendTo(".alertItem");
+
+                                    // low res video if available
+                                    if (lowResClips === true) {
+                                        $("<video id='clip' class='video' autoplay><source src='" + thumbPart.replace('.mp4', '-360.mp4') + "' type='video/mp4'><source src='" + thumbPart + "' type='video/mp4'></video>").appendTo(".alertItem");
+                                    } else {
+                                        $("<video id='clip' class='video' autoplay><source src='" + thumbPart + "' type='video/mp4'></video>").appendTo(".alertItem");
+                                    }
                                 }
                             });
                         } else {
