@@ -110,7 +110,7 @@ these token using the bot account and not your main account.
   },
   {
     "command": "follow",
-    "image": "small-Navy-Blue-Texture-Background.png",
+    "image": "{logo}",
     "audio": "song2.mp3",
     "message": "Thanks for the follow! {username}",
     "say": "",
@@ -120,7 +120,7 @@ these token using the bot account and not your main account.
   },
   {
     "command": "hosted",
-    "image": "small-Navy-Blue-Texture-Background.png",
+    "image": "{logo}",
     "audio": "song2.mp3",
     "message": "Thanks for the host! {username}",
     "say": "",
@@ -130,7 +130,7 @@ these token using the bot account and not your main account.
   },
   {
     "command": "raided",
-    "image": "small-Navy-Blue-Texture-Background.png",
+    "image": "{logo}",
     "audio": "song2.mp3",
     "message": "Thanks for the raid! {username}",
     "say": "",
@@ -140,7 +140,7 @@ these token using the bot account and not your main account.
   },
   {
     "command": "cheer",
-    "image": "small-Navy-Blue-Texture-Background.png",
+    "image": "{logo}",
     "audio": "",
     "video": "",
     "message": "Thanks for the {bits} cheers! {username} {message}",
@@ -151,7 +151,7 @@ these token using the bot account and not your main account.
   },
   {
     "command": "subscription",
-    "image": "small-Navy-Blue-Texture-Background.png",
+    "image": "{logo}",
     "audio": "",
     "video": "",
     "message": "{username} just subscribed",
@@ -162,7 +162,7 @@ these token using the bot account and not your main account.
   },
   {
     "command": "resub",
-    "image": "small-Navy-Blue-Texture-Background.png",
+    "image": "{logo}",
     "audio": "",
     "video": "",
     "message": "{username} just resubscribed for {months} months",
@@ -215,7 +215,7 @@ Place all media (images, sounds, videos) inside the media folder/directory
 
 ### Style Sheet
 
-assets/css/alerts.css
+assets/css/alerts.css [My actual CSS](https://privatebin.teklynk.com/?e894282d2430870c#GioeYqd4CnrBMzhr2L95Krn44DGFrKjafHa3Ni6W2udj)
 
 Each command is set as a class name on the alertItem div so that you can add custom css for each alert if needed.
 
