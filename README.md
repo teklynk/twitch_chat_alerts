@@ -14,10 +14,7 @@ Backup your custom css files and custom js files before pulling new changes. You
 - Move files to your web server.
 - Easiest and prefered method for a simple project like this. 
   - If you have Python installed on your machine, you can run a simple http web server using python. `python3 -m http.server 8000 --bind 127.0.0.1` OR `python2 -m SimpleHTTPServer 8000` (works on Windows, Linux, Mac)
-- Run this from a RaspberryPi server on your home network. Requires Apache, Nginx, Lighttpd
-- Setup a simple NGINX web server on your local machine. (works on Windows, Linux, Mac)
-- Use WampServer (on Windows) or XAMPP (on Linux)
-- Web server running in VirtualBox (works on Windows, Linux, Mac)
+- Set your bot account as a mod on your main channel.
 
 ## Twitch oAuth
 
@@ -56,11 +53,11 @@ Edit **data.json**. Add your own custom !action commands, !so and other bot resp
 **auth.json** contains your Twitch oAuth Token. If you are using a bot account, then you should generate
 these token using the bot account and not your main account.
 
-**data.json** contains the alert actions. [My actual data.json](https://privatebin.teklynk.com/?c9f1454c239960bc#6P3xsdpNrPfARHyeyRjnDgNE9jbGDtXrJv5H7Y2as74P)
+**data.json** contains the alert actions.
 
 **block.json** contains a list of users to block from using alerts.
 
-**notifications.json** is used to send a random chat message on a timed interval (after 30 messages and longer than 10 minutes)
+**notifications.json** is used to send a random chat message on a timed interval (after 10 messages and longer than 10 minutes)
 
 ### Example data.json file with variables
 ```
