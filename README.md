@@ -39,7 +39,7 @@ example: http://localhost/twitch_chat_alerts/alerts.html?bot=CoolBot&channel=MrS
 
 - **bot** = Your bot account. This can also be your main account if you do not have a separate bot account.
 - **channel** = Your main channel.
-- **notify** = true/false. Turn notification on or off.
+- **notify** = true/false. Turn notifications on or off. 
 
 ## JSON config files
 
@@ -212,9 +212,9 @@ Place all media (images, sounds, videos) inside the media folder/directory
 
 ### Style Sheet
 
-assets/css/alerts.css [My actual CSS](https://privatebin.teklynk.com/?e894282d2430870c#GioeYqd4CnrBMzhr2L95Krn44DGFrKjafHa3Ni6W2udj)
+assets/css/alerts.css
 
-Each command is set as a class name on the alertItem div so that you can add custom css for each alert if needed.
+Each command is set as a class name on the ".alertItem" div so that you can add custom css for each alert if needed.
 
 Example of how to add custom styling to the command called "hello".
 
