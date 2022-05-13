@@ -34,6 +34,12 @@ $(document).ready(function () {
 
     let notifications = JSON.parse($.getJSON({'url': "./notifications.json", 'async': false}).responseText);
 
+    let viewerJson = JSON.parse($.getJSON({'url': "./viewers.json", 'async': false}).responseText);
+
+    let messageCnt = 0;
+
+    let randomViewer;
+
     let blockedUsernames = blockList[0]['usernames'].replace(/\s/g, '');
     blockedUsernames = blockedUsernames.toLowerCase().trim();
     let blockedUsernamesArr = blockedUsernames.split(',');
@@ -136,6 +142,22 @@ $(document).ready(function () {
         xhrC.send();
     };
 
+    // Twitch get viewer list
+    let getViewers = function (channelName, callback) {
+        let urlV = "https://twitchapi.teklynk.com/getviewers.php?channel=" + channelName + "";
+        let xhrV = new XMLHttpRequest();
+        xhrV.open("GET", urlV);
+        xhrV.onreadystatechange = function () {
+            if (xhrV.readyState === 4) {
+                callback(JSON.parse(xhrV.responseText));
+                return true;
+            } else {
+                return false;
+            }
+        };
+        xhrV.send();
+    };
+
     // alerts function pulls from data.json
     function getAlert(alertCommand, username = null, viewers = null, userstate = null, message = null, say = null, months = null) {
 
@@ -207,13 +229,20 @@ $(document).ready(function () {
                                 messageStr = messageStr.replace("{url}", "https://twitch.tv/" + info.data[0]['broadcaster_login'] + "");
                                 messageStr = messageStr.replace("{message}", message);
                                 console.log(messageStr);
-                                client.say(channelName, messageStr);
+
+                                if (client.isMod(channelName, botName) || username === channelName) {
+                                    client.say(channelName, messageStr);
+                                }
+                                
                             });
                         } else {
                             messageStr = obj.say.replace("{username}", username);
                             messageStr = messageStr.replace("{message}", message);
                             messageStr = messageStr.replace("{bits}", userstate);
-                            client.say(channelName, messageStr);
+                            
+                            if (client.isMod(channelName, botName) || username === channelName) {
+                                client.say(channelName, messageStr);
+                            }
                         }
                     }
 
@@ -359,8 +388,6 @@ $(document).ready(function () {
         getAlert('resub', username, null, userstate, message, null, months);
     });
 
-    let messageCnt = 0;
-
     // triggers on message
     client.on('chat', (channel, user, message, self) => {
 
@@ -386,14 +413,31 @@ $(document).ready(function () {
     // Random notifications
     // if message count is greater than 10 and 10 minutes has passed, then say a random message in chat
     if (notifications.length > 0 && notify === 'true') {
+
         console.log('Chat notifications are on');
+
         let notifyInterval = setInterval(function () {
+
             let randomNotice = notifications[Math.floor(Math.random() * notifications.length)]; // pull random message from array
-            if (messageCnt >= 10 && randomNotice.say > '') {
-                client.say(channelName, randomNotice.say);
+
+            if (messageCnt >= 10) {
+                // get chatters list
+                let viewerJson = JSON.parse($.getJSON({'url': "https://twitchapi.teklynk.com/getviewers.php?channel=" + channelName + "", 'async': false}).responseText);
+                
+                let messageStr = randomNotice.say;
+                
+                // pull random userr from chatters list and use it where notification contains {username}
+                messageStr = randomNotice.say.replace("{username}", viewerJson.chatters['viewers'][Math.floor(Math.random() * viewerJson.chatters['viewers'].length)]);
+
+                console.log('random notice: ' + messageStr);
+
+                if (client.isMod(channelName, botName) || botName === channelName) {
+                    client.say(channelName, messageStr);
+                }
+
                 messageCnt = 0; // reset message count to zero and start over.
-                clearInterval(notifyInterval);
             }
+
         }, 600000); // check every 10 minutes
     }
 });
