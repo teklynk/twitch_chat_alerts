@@ -142,22 +142,6 @@ $(document).ready(function () {
         xhrC.send();
     };
 
-    // Twitch get viewer list
-    let getViewers = function (channelName, callback) {
-        let urlV = "https://twitchapi.teklynk.com/getviewers.php?channel=" + channelName + "";
-        let xhrV = new XMLHttpRequest();
-        xhrV.open("GET", urlV);
-        xhrV.onreadystatechange = function () {
-            if (xhrV.readyState === 4) {
-                callback(JSON.parse(xhrV.responseText));
-                return true;
-            } else {
-                return false;
-            }
-        };
-        xhrV.send();
-    };
-
     // alerts function pulls from data.json
     function getAlert(alertCommand, username = null, viewers = null, userstate = null, message = null, say = null, months = null) {
 
