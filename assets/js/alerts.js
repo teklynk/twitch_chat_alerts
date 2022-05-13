@@ -34,8 +34,6 @@ $(document).ready(function () {
 
     let notifications = JSON.parse($.getJSON({'url': "./notifications.json", 'async': false}).responseText);
 
-    let viewerJson = JSON.parse($.getJSON({'url': "./viewers.json", 'async': false}).responseText);
-
     let messageCnt = 0;
 
     let randomViewer;
