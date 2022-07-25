@@ -6,7 +6,8 @@ Future development can be tracked here: [https://github.com/teklynk/twitch_chat_
 
 ## Notes
 
-Backup your custom css files and custom js files before pulling new changes. You can also diff the files to see what has changed and merge the changes that you want. 
+- Backup your custom css files and custom js files before pulling new changes. You can also diff the files to see what has changed and merge the changes that you want. 
+- Rename assets/css/sample.alerts.css to assets/css/alerts.css if the file does not exist.
 
 ## Install and Run
 
@@ -15,6 +16,7 @@ Backup your custom css files and custom js files before pulling new changes. You
 - Easiest and prefered method for a simple project like this. 
   - If you have Python installed on your machine, you can run a simple http web server using python. `python3 -m http.server 8000 --bind 127.0.0.1` OR `python2 -m SimpleHTTPServer 8000` (works on Windows, Linux, Mac)
 - Set your bot account as a mod on your main channel.
+- Rename assets/css/sample.alerts.css to assets/css/alerts.css if the file does not exist.
 
 ## Twitch oAuth
 
