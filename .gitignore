@@ -4,3 +4,4 @@ auth.json
 block.json
 notifications.json
 /media/*
+/assets/css/alerts.css
