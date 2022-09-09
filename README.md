@@ -68,6 +68,8 @@ these token using the bot account and not your main account.
     "command": "!alert",
     "image": "animatedgif1.gif",
     "audio": "song1.mp3",
+    "video": "",
+    "volume": "",
     "message": "Hello World1! {username}",
     "say": "",
     "timelimit": "5000",
@@ -79,6 +81,7 @@ these token using the bot account and not your main account.
     "image": "",
     "audio": "fart1.mp3",
     "video": "",
+    "volume": "0.5",
     "message": "",
     "say": "{username} just farted :)",
     "timelimit": "1000",
@@ -90,6 +93,7 @@ these token using the bot account and not your main account.
     "image": "",
     "audio": "",
     "video": "",
+    "volume": "0.8",
     "message": "",
     "say": "hello @{username} :)",
     "timelimit": "1000",
@@ -100,6 +104,8 @@ these token using the bot account and not your main account.
     "command": "!so",
     "image": "",
     "audio": "",
+    "video": "",
+    "volume": "1.0",
     "video": "{randomclip}",
     "message": "Go check out {channel}",
     "say": "Go check out @{channel}. They were last seen playing: {playing} - {status} {url}",
@@ -111,6 +117,8 @@ these token using the bot account and not your main account.
     "command": "follow",
     "image": "{logo}",
     "audio": "song2.mp3",
+    "video": "",
+    "volume": "1.0",
     "message": "Thanks for the follow! {username}",
     "say": "",
     "timelimit": "8000",
@@ -121,6 +129,8 @@ these token using the bot account and not your main account.
     "command": "hosted",
     "image": "{logo}",
     "audio": "song2.mp3",
+    "video": "",
+    "volume": "1.0",
     "message": "Thanks for the host! {username}",
     "say": "",
     "timelimit": "8000",
@@ -131,6 +141,8 @@ these token using the bot account and not your main account.
     "command": "raided",
     "image": "{logo}",
     "audio": "song2.mp3",
+    "video": "",
+    "volume": "1.0",
     "message": "Thanks for the raid! {username}",
     "say": "",
     "timelimit": "8000",
@@ -142,6 +154,7 @@ these token using the bot account and not your main account.
     "image": "{logo}",
     "audio": "",
     "video": "",
+    "volume": "1.0",
     "message": "Thanks for the {bits} cheers! {username} {message}",
     "say": "",
     "timelimit": "8000",
@@ -153,6 +166,7 @@ these token using the bot account and not your main account.
     "image": "{logo}",
     "audio": "",
     "video": "",
+    "volume": "1.0",
     "message": "{username} just subscribed",
     "say": "",
     "timelimit": "3000",
@@ -164,6 +178,7 @@ these token using the bot account and not your main account.
     "image": "{logo}",
     "audio": "",
     "video": "",
+    "volume": "1.0",
     "message": "{username} just resubscribed for {months} months",
     "say": "",
     "timelimit": "3000",
@@ -177,6 +192,7 @@ these token using the bot account and not your main account.
 - **"image":** Show image in the overlay
 - **"audio":** Plays an audio file
 - **"video":** Plays a video file
+- **"volume":** This is a float(decimal) value "0.0" ~ "1.0". Default is "1.0" if not set.
 - **"message":** Displays a message in the overlay
 - **"say":** Says a message in chat
 - **"timelimit":** (miliseconds) How long the alert runs

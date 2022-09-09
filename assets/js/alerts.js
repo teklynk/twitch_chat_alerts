@@ -252,7 +252,15 @@ $(document).ready(function () {
 
                     if (obj.audio) {
                         let ext = obj.audio.split('.').pop();
-                        $("<audio class='sound' preload='auto' src='./media/" + obj.audio + "' autoplay type='audio/" + ext + "'></audio>").appendTo(".alertItem");
+                        $("<audio id='sound' class='sound' preload='auto' src='./media/" + obj.audio + "' autoplay type='audio/" + ext + "'></audio>").appendTo(".alertItem");
+
+                        let audioElem = document.getElementById("sound");
+
+                        if (obj.volume) {
+                            audioElem.volume = parseFloat(obj.volume);
+                        } else {
+                            audioElem.volume = 1.0;
+                        }
                     }
                     if (obj.video) {
                         if (alertCommand === '!so' && obj.video === "{randomclip}") {
@@ -279,6 +287,14 @@ $(document).ready(function () {
                         } else {
                             let ext = obj.video.split('.').pop();
                             $("<video id='clip' class='video' autoplay><source src='./media/" + obj.video + "' type='video/" + ext + "'></video>").appendTo(".alertItem");
+
+                            let videoElem = document.getElementById("clip");
+
+                            if (obj.volume) {
+                                videoElem.volume = parseFloat(obj.volume);
+                            } else {
+                                videoElem.volume = 1.0;
+                            }
                         }
 
                         // Auto remove video element if video ends before the timelimit
