@@ -419,13 +419,14 @@ $(document).ready(function () {
             let randomNotice = notifications[Math.floor(Math.random() * notifications.length)]; // pull random message from array
 
             if (messageCnt >= 10) {
+                // Depricated - TODO: refactor
                 // get chatters list
-                let viewerJson = JSON.parse($.getJSON({'url': "https://twitchapi.teklynk.com/getviewers.php?channel=" + channelName + "", 'async': false}).responseText);
+                //let viewerJson = JSON.parse($.getJSON({'url': "https://twitchapi.teklynk.com/getviewers.php?channel=" + channelName + "", 'async': false}).responseText);
                 
                 let messageStr = randomNotice.say;
                 
                 // pull random userr from chatters list and use it where notification contains {username}
-                messageStr = randomNotice.say.replace("{username}", viewerJson.chatters['viewers'][Math.floor(Math.random() * viewerJson.chatters['viewers'].length)]);
+                //messageStr = randomNotice.say.replace("{username}", viewerJson.chatters['viewers'][Math.floor(Math.random() * viewerJson.chatters['viewers'].length)]);
 
                 console.log('random notice: ' + messageStr);
 
