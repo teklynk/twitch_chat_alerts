@@ -12,9 +12,10 @@ Future development can be tracked here: [https://github.com/teklynk/twitch_chat_
 ## Install and Run
 
 - Clone or download this repo.
-- Move files to your web server.
-- Easiest and prefered method for a simple project like this. 
-  - If you have Python installed on your machine, you can run a simple http web server using python. `python3 -m http.server 8000 --bind 127.0.0.1` OR `python2 -m SimpleHTTPServer 8000` (works on Windows, Linux, Mac)
+- npm install
+- npm run server
+- Visit http://localhost:8080/alerts.html?channel=MrStreamer&bot=CoolBot
+  
 - Set your bot account as a mod on your main channel.
 - Rename assets/css/sample.alerts.css to assets/css/alerts.css if the file does not exist.
 
@@ -37,7 +38,7 @@ Generate a Custom Scope Token with these permissions:
 
 ## URL Parameters
 
-example: http://localhost/twitch_chat_alerts/alerts.html?bot=CoolBot&channel=MrStreamer
+example: http://localhost:8080/alerts.html?channel=MrStreamer&bot=CoolBot
 
 - **bot** = Your bot account. This can also be your main account if you do not have a separate bot account.
 - **channel** = Your main channel.
