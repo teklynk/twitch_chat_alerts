@@ -12,7 +12,7 @@ $(document).ready(function () {
     let notify = getUrlParameter('notify').toLowerCase().trim();
 
     // Low res video clips if available. default is disabled
-    let lowResClips = true;
+    let lowResClips = false;
 
     if (botName === '') {
         alert('bot is not set in the URL');
@@ -36,13 +36,12 @@ $(document).ready(function () {
 
     let messageCnt = 0;
 
-    let randomViewer;
-
     let blockedUsernames = blockList[0]['usernames'].replace(/\s/g, '');
     blockedUsernames = blockedUsernames.toLowerCase().trim();
     let blockedUsernamesArr = blockedUsernames.split(',');
     blockedUsernamesArr = blockedUsernamesArr.filter(Boolean);
     let authtoken = authJson[0].authtoken;
+    let apitoken = authJson[0].apitoken;
 
     // Initial load of all commands into localStorage. Refreshing the broswer source will reset cooldown to zero
     if (jsonData.length) {
@@ -100,13 +99,13 @@ $(document).ready(function () {
 
                 if (!blockedUser) {
                     localStorage.setItem("followerName", follow.data[0]['from_name']);
-                    getAlert('follow', localStorage.getItem("followerName"), null, null, null, null, null);
+                    getAlert('follow', localStorage.getItem("followerName"), null, null, null, null, null, null);
                 } else {
                     console.log('blocked follow: ' + follow.data[0]['from_name']);
                 }
             }
         });
-    }, 5000); // every 5 seconds
+    }, 10000); // every 10 seconds
 
     // Twitch API get last game played from a user
     let getDetails = function (channelName, callback) {
@@ -141,12 +140,12 @@ $(document).ready(function () {
     };
 
     // alerts function pulls from data.json
-    function getAlert(alertCommand, username = null, viewers = null, userstate = null, message = null, say = null, months = null) {
+    function getAlert(alertCommand, username = null, viewers = null, userstate = null, message = null, say = null, months = null, rewardType = null) {
 
         // ignore if already playing an alert
-        if ($('.alertItem').length) {
-            return false;
-        }
+        //if ($('.alertItem').length) {
+        //    return false;
+        //}
 
         $.each(jsonData, function (idx, obj) {
 
@@ -198,6 +197,7 @@ $(document).ready(function () {
                 function doAlert() {
 
                     if (obj.say) {
+
                         // Shoutout logic
                         if (alertCommand === '!so') {
                             getChannel = message.substr(4);
@@ -215,17 +215,38 @@ $(document).ready(function () {
                                 if (client.isMod(channelName, botName) || username === channelName) {
                                     client.say(channelName, messageStr);
                                 }
-                                
+
                             });
+
+                        // Custom logic
+                        } else if (alertCommand === '!promote') {
+                            getChannel = message.substr(9);
+                            getChannel = getChannel.replace('@', '');
+                            getChannel = getChannel.trim();
+                            getChannel = getChannel.toLowerCase();
+
+                            messageStr = obj.say.replace("{channel}", getChannel);
+
+                            $.ajax({url: "https://endpoint.teklynk.com/discord_twitch_endpoint?channel=" + getChannel + "&api=" + apitoken + "", success: function(result) {
+                                console.log(result);
+                            }});
+
+                            if (client.isMod(channelName, botName) || username === channelName) {
+                                client.say(channelName, messageStr);
+                            }
+
+                        // Default
                         } else {
                             messageStr = obj.say.replace("{username}", username);
                             messageStr = messageStr.replace("{message}", message);
                             messageStr = messageStr.replace("{bits}", userstate);
-                            
+                            messageStr = messageStr.replace("{channel}", getChannel);
+
                             if (client.isMod(channelName, botName) || username === channelName) {
                                 client.say(channelName, messageStr);
                             }
                         }
+
                     }
 
                     // on screen alerts
@@ -361,29 +382,39 @@ $(document).ready(function () {
     // triggers on hosted
     client.on("hosted", (channel, username, viewers, autohost) => {
         console.log('hosted: ' + username);
-        getAlert('hosted', username, viewers, null, null, null, null);
+        getAlert('hosted', username, viewers, null, null, null, null, null);
     });
 
     // triggers on raid
     client.on("raided", (channel, username, viewers) => {
         console.log('raided: ' + username);
-        getAlert('raided', username, viewers, null, null, null, null);
+        getAlert('raided', username, viewers, null, null, null, null, null);
     });
 
     // triggers on cheer
     client.on("cheer", (channel, userstate, message) => {
         console.log('cheer: ' + userstate.username);
-        getAlert('cheer', userstate.username, null, userstate.bits, message, null, null);
+        getAlert('cheer', userstate.username, null, userstate.bits, message, null, null, null);
     });
 
     client.on("subscription", (channel, username, method, message, userstate) => {
         console.log('subscription: ' + username);
-        getAlert('subscription', username, null, userstate, message, null, null);
+        getAlert('subscription', username, null, userstate, message, null, null, null);
     });
 
     client.on("resub", (channel, username, months, message, userstate, methods) => {
         console.log('resub: ' + username);
-        getAlert('resub', username, null, userstate, message, null, months);
+        getAlert('resub', username, null, userstate, message, null, months, null);
+    });
+
+    // This event requires that the redemption has "Require Viewer to Enter Text" enabled in order to be sent to the IRC. Only then will it be picked up by tmi.js.
+    client.on("redeem", (channel, username, rewardtype, tags, msg) => {
+        console.log(channel);
+        console.log(username);
+        console.log(rewardtype);
+        console.log(tags);
+        console.log(msg);
+        getAlert('redeem', username, null, null, msg, null, null, rewardtype);
     });
 
     // triggers on message
@@ -402,7 +433,7 @@ $(document).ready(function () {
         if (user['message-type'] === 'chat') {
 
             if (chatmessage.startsWith("!")) {
-                //alertCommand, username = null, viewers = null, userstate = null, message = null, say = null, months = null
+                //alertCommand, username = null, viewers = null, userstate = null, message = null, say = null, months = null, rewardType = null
                 getAlert(chatmessage.split(' ')[0], user.username, null, user.state, message, null, null);
             }
         }
@@ -418,14 +449,13 @@ $(document).ready(function () {
 
             let randomNotice = notifications[Math.floor(Math.random() * notifications.length)]; // pull random message from array
 
-            if (messageCnt >= 10) {
-                // Depricated - TODO: refactor
+            if (messageCnt >= 30) {
                 // get chatters list
                 //let viewerJson = JSON.parse($.getJSON({'url': "https://twitchapi.teklynk.com/getviewers.php?channel=" + channelName + "", 'async': false}).responseText);
-                
+
                 let messageStr = randomNotice.say;
-                
-                // pull random userr from chatters list and use it where notification contains {username}
+
+                // pull random user from chatters list and use it where notification contains {username}
                 //messageStr = randomNotice.say.replace("{username}", viewerJson.chatters['viewers'][Math.floor(Math.random() * viewerJson.chatters['viewers'].length)]);
 
                 console.log('random notice: ' + messageStr);
@@ -437,6 +467,6 @@ $(document).ready(function () {
                 messageCnt = 0; // reset message count to zero and start over.
             }
 
-        }, 600000); // check every 10 minutes
+        }, 60000); // check every 10 minutes
     }
 });

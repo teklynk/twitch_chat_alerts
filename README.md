@@ -62,6 +62,8 @@ these token using the bot account and not your main account.
 
 **notifications.json** is used to send a random chat message on a timed interval (after 10 messages and longer than 10 minutes)
 
+**Redeems** If using this with redeems/channel points, it will only work if your redeem requires the user to enter a message along with the redeem. EX: hightlighted-message. In data.json, set the "command": "redeem" and add "redeemtype": "highlighted-message". Use the "redeem" example below.
+
 ### Example data.json file with variables
 ```
 [
@@ -113,6 +115,19 @@ these token using the bot account and not your main account.
     "timelimit": "10000",
     "perm": "mods",
     "cooldown": "10000"
+  },
+  {
+    "command": "redeem",
+    "redeemtype": "highlighted-message",
+    "image": "",
+    "audio": "mixkit-funny-video-game-slide-2888.wav",
+    "video": "",
+    "volume": "",
+    "message": "{message}",
+    "say": "",
+    "timelimit": "5000",
+    "perm": "all",
+    "cooldown": "5000"
   },
   {
     "command": "follow",
