@@ -6,6 +6,7 @@ Future development can be tracked here: [https://github.com/teklynk/twitch_chat_
 
 ## Notes
 
+- NEW: September 2023. Follower alerts now requires an access token with moderator:read:followers permissions. The auth.json file also needs a clientId. 
 - Backup your custom css files and custom js files before pulling new changes. You can also diff the files to see what has changed and merge the changes that you want. 
 - Rename assets/css/sample.alerts.css to assets/css/alerts.css if the file does not exist.
 
@@ -14,8 +15,8 @@ Future development can be tracked here: [https://github.com/teklynk/twitch_chat_
 - Clone or download this repo.
 - npm install
 - npm run server
-- Visit http://localhost:8080/alerts.html?channel=MrStreamer&bot=CoolBot
-  
+- Visit http://localhost:8000/alerts.html?channel=MrStreamer&bot=CoolBot
+- You can change the 8000 port number inside package.json if needed.
 - Set your bot account as a mod on your main channel.
 - Rename assets/css/sample.alerts.css to assets/css/alerts.css if the file does not exist.
 
@@ -24,9 +25,9 @@ Future development can be tracked here: [https://github.com/teklynk/twitch_chat_
 Tokens can be generated from [https://twitchtokengenerator.com/](https://twitchtokengenerator.com/)
 
 If you want your bot to reply in chat after a command, I suggest creating tokens using your bots account. To do this,
-you will need to sign in to Twitch using your bot account before visiting twitchtokengenerator.
+you will need to sign in to Twitch using your bot account before visiting twitchtokengenerator or visit https://twitchtokengenerator.com/ in incognito mode.
 
-Generate a Custom Scope Token with these permissions:
+IMPORTANT! Generate a Custom Scope Token with these permissions:
 
 - bits:read
 - chat:read
@@ -35,6 +36,7 @@ Generate a Custom Scope Token with these permissions:
 - channel:read:redemptions
 - user:read:subscription
 - user:read:follows
+- moderator:read:followers
 
 ## URL Parameters
 

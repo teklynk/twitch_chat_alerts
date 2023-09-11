@@ -41,7 +41,7 @@ $(document).ready(function () {
     let blockedUsernamesArr = blockedUsernames.split(',');
     blockedUsernamesArr = blockedUsernamesArr.filter(Boolean);
     let authtoken = authJson[0].authtoken;
-    let apitoken = authJson[0].apitoken;
+    let clientId = authJson[0].clientId;
 
     // Initial load of all commands into localStorage. Refreshing the broswer source will reset cooldown to zero
     if (jsonData.length) {
@@ -67,9 +67,9 @@ $(document).ready(function () {
         xhrI.send();
     }
 
-    // Twitch API: recent follow
-    let getFollows = function (channelName, callback) {
-        let urlF = "https://twitchapi.teklynk.com/getuserfollows.php?channel=" + channelName + "&limit=1";
+     // Twitch API: recent follow
+     let getFollows = function (channelName, callback) {
+        let urlF = "https://twitchapi.teklynk.com/getuserfollows.php?channel=" + channelName + "&limit=1&ref=" + btoa(authtoken) + "&clientId=" + btoa(clientId);
         let xhrF = new XMLHttpRequest();
         xhrF.open("GET", urlF);
         xhrF.onreadystatechange = function () {
@@ -88,20 +88,20 @@ $(document).ready(function () {
         // get recent follower
         getFollows(channelName, function (follow) {
             let blockedUser = false;
-            if (follow.data[0]['from_name'] !== localStorage.getItem("followerName")) {
+            if (follow.data[0]['user_name'] !== localStorage.getItem("followerName")) {
                 blockedUsernamesArr.forEach(usersList);
 
                 function usersList(item, index) {
-                    if (follow.data[0]['from_name'].startsWith(item)) {
+                    if (follow.data[0]['user_name'].startsWith(item)) {
                         blockedUser = true;
                     }
                 }
 
                 if (!blockedUser) {
-                    localStorage.setItem("followerName", follow.data[0]['from_name']);
+                    localStorage.setItem("followerName", follow.data[0]['user_name']);
                     getAlert('follow', localStorage.getItem("followerName"), null, null, null, null, null, null);
                 } else {
-                    console.log('blocked follow: ' + follow.data[0]['from_name']);
+                    console.log('blocked follow: ' + follow.data[0]['user_name']);
                 }
             }
         });
@@ -217,23 +217,6 @@ $(document).ready(function () {
                                 }
 
                             });
-
-                        // Custom logic
-                        } else if (alertCommand === '!promote') {
-                            getChannel = message.substr(9);
-                            getChannel = getChannel.replace('@', '');
-                            getChannel = getChannel.trim();
-                            getChannel = getChannel.toLowerCase();
-
-                            messageStr = obj.say.replace("{channel}", getChannel);
-
-                            $.ajax({url: "https://endpoint.teklynk.com/discord_twitch_endpoint?channel=" + getChannel + "&api=" + apitoken + "", success: function(result) {
-                                console.log(result);
-                            }});
-
-                            if (client.isMod(channelName, botName) || username === channelName) {
-                                client.say(channelName, messageStr);
-                            }
 
                         // Default
                         } else {
