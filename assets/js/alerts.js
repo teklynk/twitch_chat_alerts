@@ -225,9 +225,8 @@ $(document).ready(function () {
                             messageStr = messageStr.replace("{bits}", userstate);
                             messageStr = messageStr.replace("{channel}", getChannel);
 
-                            if (client.isMod(channelName, botName) || username === channelName) {
-                                client.say(channelName, messageStr);
-                            }
+                            client.say(channelName, messageStr);
+                            
                         }
 
                     }
@@ -405,7 +404,7 @@ $(document).ready(function () {
 
         // Ignore echoed messages.
         if (self) {
-            return false;
+            //return false;
         }
 
         messageCnt++;
@@ -433,13 +432,8 @@ $(document).ready(function () {
             let randomNotice = notifications[Math.floor(Math.random() * notifications.length)]; // pull random message from array
 
             if (messageCnt >= 30) {
-                // get chatters list
-                //let viewerJson = JSON.parse($.getJSON({'url': "https://twitchapi.teklynk.com/getviewers.php?channel=" + channelName + "", 'async': false}).responseText);
-
+    
                 let messageStr = randomNotice.say;
-
-                // pull random user from chatters list and use it where notification contains {username}
-                //messageStr = randomNotice.say.replace("{username}", viewerJson.chatters['viewers'][Math.floor(Math.random() * viewerJson.chatters['viewers'].length)]);
 
                 console.log('random notice: ' + messageStr);
 
