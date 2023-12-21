@@ -140,12 +140,14 @@ $(document).ready(function () {
     };
 
     // alerts function pulls from data.json
-    function getAlert(alertCommand, username = null, viewers = null, userstate = null, message = null, say = null, months = null, rewardType = null) {
+    function getAlert(alertCommand, username = null, viewers = null, userstate = null, message = null, say = null, months = null, rewardType = null, isMod) {
 
         // ignore if already playing an alert
         //if ($('.alertItem').length) {
         //    return false;
         //}
+
+        console.log('isMod: ' + isMod);
 
         $.each(jsonData, function (idx, obj) {
 
@@ -185,7 +187,7 @@ $(document).ready(function () {
                 }
 
                 if (!blockedUser && coolDownExpired === true) {
-                    if (obj.perm === "mods" && client.isMod(channelName, username) || username === channelName) {
+                    if (obj.perm === "mods" && (isMod || username === channelName)) {
                         doAlert(); //mods only
                     } else if (obj.perm === "all") {
                         doAlert(); //everyone
@@ -212,7 +214,7 @@ $(document).ready(function () {
                                 messageStr = messageStr.replace("{message}", message);
                                 console.log(messageStr);
 
-                                if (client.isMod(channelName, botName) || username === channelName) {
+                                if (isMod|| username === channelName) {
                                     client.say(channelName, messageStr);
                                 }
 
@@ -225,8 +227,9 @@ $(document).ready(function () {
                             messageStr = messageStr.replace("{bits}", userstate);
                             messageStr = messageStr.replace("{channel}", getChannel);
 
-                            client.say(channelName, messageStr);
-                            
+                            if (isMod || username === channelName) {
+                                client.say(channelName, messageStr);
+                            }
                         }
 
                     }
@@ -364,29 +367,29 @@ $(document).ready(function () {
     // triggers on hosted
     client.on("hosted", (channel, username, viewers, autohost) => {
         console.log('hosted: ' + username);
-        getAlert('hosted', username, viewers, null, null, null, null, null);
+        getAlert('hosted', username, viewers, null, null, null, null, null, username.mod);
     });
 
     // triggers on raid
     client.on("raided", (channel, username, viewers) => {
         console.log('raided: ' + username);
-        getAlert('raided', username, viewers, null, null, null, null, null);
+        getAlert('raided', username, viewers, null, null, null, null, null, username.mod);
     });
 
     // triggers on cheer
     client.on("cheer", (channel, userstate, message) => {
         console.log('cheer: ' + userstate.username);
-        getAlert('cheer', userstate.username, null, userstate.bits, message, null, null, null);
+        getAlert('cheer', userstate.username, null, userstate.bits, message, null, null, null, username.mod);
     });
 
     client.on("subscription", (channel, username, method, message, userstate) => {
         console.log('subscription: ' + username);
-        getAlert('subscription', username, null, userstate, message, null, null, null);
+        getAlert('subscription', username, null, userstate, message, null, null, null, username.mod);
     });
 
     client.on("resub", (channel, username, months, message, userstate, methods) => {
         console.log('resub: ' + username);
-        getAlert('resub', username, null, userstate, message, null, months, null);
+        getAlert('resub', username, null, userstate, message, null, months, null, username.mod);
     });
 
     // This event requires that the redemption has "Require Viewer to Enter Text" enabled in order to be sent to the IRC. Only then will it be picked up by tmi.js.
@@ -396,15 +399,21 @@ $(document).ready(function () {
         console.log(rewardtype);
         console.log(tags);
         console.log(msg);
-        getAlert('redeem', username, null, null, msg, null, null, rewardtype);
+        getAlert('redeem', username, null, null, msg, null, null, rewardtype, username.mod);
     });
 
     // triggers on message
     client.on('chat', (channel, user, message, self) => {
 
+        let isMod = false;
+
         // Ignore echoed messages.
         if (self) {
             //return false;
+        }
+
+        if (user.mod) {
+            isMod = true;
         }
 
         messageCnt++;
@@ -416,7 +425,7 @@ $(document).ready(function () {
 
             if (chatmessage.startsWith("!")) {
                 //alertCommand, username = null, viewers = null, userstate = null, message = null, say = null, months = null, rewardType = null
-                getAlert(chatmessage.split(' ')[0], user.username, null, user.state, message, null, null);
+                getAlert(chatmessage.split(' ')[0], user.username, null, user.state, message, null, null, null, isMod);
             }
         }
     });
@@ -432,14 +441,12 @@ $(document).ready(function () {
             let randomNotice = notifications[Math.floor(Math.random() * notifications.length)]; // pull random message from array
 
             if (messageCnt >= 30) {
-    
+                
                 let messageStr = randomNotice.say;
 
                 console.log('random notice: ' + messageStr);
 
-                if (client.isMod(channelName, botName) || botName === channelName) {
-                    client.say(channelName, messageStr);
-                }
+                client.say(channelName, messageStr);
 
                 messageCnt = 0; // reset message count to zero and start over.
             }
