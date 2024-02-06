@@ -214,7 +214,7 @@ $(document).ready(function () {
                                 messageStr = messageStr.replace("{message}", message);
                                 console.log(messageStr);
 
-                                if (isMod|| username === channelName) {
+                                if (isMod || username === channelName) {
                                     client.say(channelName, messageStr);
                                 }
 
